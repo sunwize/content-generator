@@ -2,9 +2,11 @@ import type { TutorialStep } from "~/types/TutorialStep";
 
 export const filename = ref("index.js");
 export const title = ref("Status Window Indicator");
-export const html = ref(`
-<button>Button</button>
-  `);
+export const html = ref(`<div>
+  <p id="prout">
+    <button class="test">Button</button>
+  </p>
+</div>`);
 export const css = ref(`
 button {
   font-size: 1.5rem;

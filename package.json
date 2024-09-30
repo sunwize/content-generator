@@ -15,7 +15,6 @@
     "js-beautify": "^1.15.1",
     "nuxt": "^3.13.0",
     "prettier": "^3.3.3",
-    "simple-code-editor": "^2.0.9",
     "vue": "latest",
     "vue-router": "latest"
   },

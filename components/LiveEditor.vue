@@ -45,7 +45,6 @@ const typeNextChar = () => {
 
     let typedText = "";
     let index = 0;
-    keyboard.play();
 
     const _typeNextChar = () => {
         if (!codeBlockEl.value) return;
@@ -70,7 +69,10 @@ const typeNextChar = () => {
         });
     };
 
-    setTimeout(_typeNextChar, 500); // Wait for the initial animation to finish
+    setTimeout(() => {
+        _typeNextChar();
+        keyboard.play();
+    }, 500); // Wait for the initial animation to finish
 };
 
 onMounted(() => {

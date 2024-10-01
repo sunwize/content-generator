@@ -1,7 +1,11 @@
 <script lang="ts" setup>
 import { formatCode } from "~/assets/utils/formatter";
+import { keyboard } from "~/assets/utils/sound";
 import { completedSteps, css, html, stepIndex, steps } from "~/stores";
 import SolarPlayLinear from "~icons/solar/play-linear";
+import SolarStopLinear from "~icons/solar/stop-linear";
+
+const currentStep = computed(() => steps.value[stepIndex.value]);
 
 const extractSelectorDefinitions = (cssBlock: string) => {
     // Remove comments and trim the input
@@ -38,17 +42,43 @@ const generateSteps = async () => {
         });
     }
 };
+
+const stop = () => {
+    stepIndex.value = 0;
+    completedSteps.value = [];
+    steps.value = [];
+
+    keyboard.pause();
+    keyboard.currentTime = 0;
+
+    const sandbox = document.querySelector("#sandbox");
+
+    if (sandbox?.shadowRoot) {
+        sandbox.shadowRoot.innerHTML = "";
+    }
+};
 </script>
 
 <template>
   <ul class="bg-slate-900 rounded-xl flex items-center justify-center gap-3 px-3 py-2">
     <li>
       <UButton
+        v-if="!currentStep"
         variant="ghost"
         size="lg"
+        color="primary"
         @click="generateSteps"
       >
         <SolarPlayLinear class="size-6" />
+      </UButton>
+      <UButton
+        v-else
+        variant="ghost"
+        size="lg"
+        color="red"
+        @click="stop"
+      >
+        <SolarStopLinear class="size-6" />
       </UButton>
     </li>
   </ul>

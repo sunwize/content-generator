@@ -11,7 +11,9 @@ import Settings from "~/components/Settings.vue";
         <Settings />
       </div>
       <div class="col-span-4 flex flex-col gap-3 px-3 py-6">
-        <PreviewStatusBar />
+        <ClientOnly>
+          <PreviewStatusBar />
+        </ClientOnly>
         <div class="flex-1 flex items-start justify-center bg-white/20 rounded-xl p-6">
           <LivePreview />
         </div>

@@ -1,19 +1,25 @@
 <script lang="ts" setup>
 import LiveEditor from "~/components/LiveEditor.vue";
 import Sandbox from "~/components/Sandbox.vue";
-import { completedSteps, html, isPlaying, isPreview, isPreviewCode, skipHTML, stepIndex, steps, title } from "~/stores";
+import { html, includedSteps, isPlaying, isPreview, isPreviewCode, renderStepIndex, stepIndex, steps, title } from "~/stores";
 
 const currentStep = computed(() => steps.value[stepIndex.value]);
 
-const animate = computed(() => stepIndex.value === 0 || (skipHTML.value && stepIndex.value === 1));
+// Only animate the first step
+const animate = computed(() => stepIndex.value === includedSteps.value.findIndex((value) => value));
 
 const nextStep = () => {
-    completedSteps.value.push(currentStep.value);
-    if (stepIndex.value < steps.value.length - 1) {
-        setTimeout(() => {
-            stepIndex.value++;
-        }, 1000);
+    renderStepIndex.value++;
+    const nextIndex = includedSteps.value.findIndex((value, index) => value && stepIndex.value < index);
+
+    if (nextIndex === -1) {
+        renderStepIndex.value = steps.value.length;
+        return;
     }
+
+    setTimeout(() => {
+        stepIndex.value = nextIndex;
+    }, 1000);
 };
 </script>
 

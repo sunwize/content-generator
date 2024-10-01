@@ -4,7 +4,7 @@ import css from "highlight.js/lib/languages/css";
 import javascript from "highlight.js/lib/languages/javascript";
 import xml from "highlight.js/lib/languages/xml";
 
-import { keyboard, whoosh } from "~/assets/utils/sound";
+import { keyboard, pop, whoosh } from "~/assets/utils/sound";
 import { isPlaying } from "~/stores";
 
 hljs.registerLanguage("javascript", javascript);
@@ -61,6 +61,8 @@ const typeNextChar = () => {
             // timeout = setTimeout(_typeNextChar, 0);
         } else {
             keyboard.pause();
+            pop.currentTime = 0;
+            pop.play();
             emit("step-done");
         }
 
@@ -70,7 +72,7 @@ const typeNextChar = () => {
         });
     };
 
-    setTimeout(() => {
+    timeout = setTimeout(() => {
         if (!isPlaying.value) return;
 
         _typeNextChar();
@@ -89,7 +91,7 @@ onMounted(() => {
         highlightCode();
     }
 
-    setTimeout(typeNextChar, 500);
+    timeout = setTimeout(typeNextChar, 500);
 });
 
 onBeforeUnmount(() => {

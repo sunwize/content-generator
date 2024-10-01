@@ -9,7 +9,12 @@ type Props = {
   lines?: number;
 };
 
+type Emits = {
+  (e: "change"): void;
+};
+
 const props = defineProps<Props>();
+const emit = defineEmits<Emits>();
 
 const modelValue = defineModel<string>({ required: true });
 const wrapper = ref<HTMLElement>();
@@ -97,6 +102,7 @@ onMounted(() => {
         spellcheck="false"
         class="absolute inset-0 px-3 py-2 z-[1] overflow-auto whitespace-pre resize-none outline-none font-mono bg-transparent text-white/0 caret-white/80 text-sm leading-relaxed"
         :style="style"
+        @change="emit('change')"
         @scroll="onScroll"
       />
       <pre

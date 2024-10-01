@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { css } from "~/stores";
+import { css, generateSteps } from "~/stores";
 </script>
 
 <template>
@@ -7,6 +7,7 @@ import { css } from "~/stores";
     <CodeEditor
       v-model="css"
       language="css"
+      @change="generateSteps"
     />
   </div>
 </template>

@@ -1,3 +1,4 @@
+import { formatCode } from "~/assets/utils/formatter";
 import type { TutorialStep } from "~/types/TutorialStep";
 
 export const html = ref(`
@@ -25,12 +26,48 @@ button:active {
 
 export const title = ref("Enter title");
 export const scale = ref(100);
-export const skipHTML = ref(false);
 
+export const renderStepIndex = ref(0);
 export const stepIndex = ref(0);
 export const steps = ref<TutorialStep[]>([]);
-export const completedSteps = ref<TutorialStep[]>([]);
+export const includedSteps = ref<boolean[]>([]);
 
 export const isPlaying = ref(false);
 export const isPreview = ref(false);
 export const isPreviewCode = ref(false);
+
+const extractSelectorDefinitions = (cssBlock: string) => {
+    // Remove comments and trim the input
+    const cleanCss = cssBlock.replace(/\/\*[\s\S]*?\*\//g, "").trim();
+
+    // Match all CSS rules, including @rules like @keyframes and standard selectors
+    const selectorRegex = /([^{]+\{(?:[^{}]*|\{[^}]*\})*\})/g;
+    let match;
+    const selectorDefinitions = [];
+
+    while ((match = selectorRegex.exec(cleanCss)) !== null) {
+        // Add the entire block (selector or @rule)
+        selectorDefinitions.push(match[1].trim());
+    }
+
+    return selectorDefinitions;
+};
+
+export const generateSteps = async () => {
+    steps.value = [];
+    steps.value.push({
+        filename: "index.html",
+        code: await formatCode(html.value, "html"),
+        language: "html",
+    });
+    const selectors = extractSelectorDefinitions(css.value);
+    for (const selector of selectors) {
+        steps.value.push({
+            filename: "styles.css",
+            code: await formatCode(selector, "css"),
+            language: "css",
+        });
+    }
+
+    includedSteps.value = steps.value.map(() => true);
+};

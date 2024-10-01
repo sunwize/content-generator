@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { scale, skipHTML, title } from "~/stores";
+import { scale, title } from "~/stores";
 </script>
 
 <template>
@@ -23,9 +23,5 @@ import { scale, skipHTML, title } from "~/stores";
         :max="200"
       />
     </UFormGroup>
-    <UCheckbox
-      v-model="skipHTML"
-      label="Skip HTML"
-    />
   </UCard>
 </template>

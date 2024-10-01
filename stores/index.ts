@@ -24,6 +24,11 @@ button:active {
 `);
 
 export const title = ref("Enter title");
+export const scale = ref(100);
+
 export const stepIndex = ref(0);
 export const steps = ref<TutorialStep[]>([]);
 export const completedSteps = ref<TutorialStep[]>([]);
+
+export const isPlaying = ref(false);
+export const isPreview = ref(false);

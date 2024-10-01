@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import CodeEditor from "~/components/CodeEditor.vue";
-import { css, html } from "~/stores";
+import { css, html, scale, title } from "~/stores";
 import SkillIconsCss from "~icons/skill-icons/css";
 import SkillIconsHtml from "~icons/skill-icons/html";
 
@@ -10,6 +10,9 @@ const tabItems = [
     },
     {
         label: "CSS",
+    },
+    {
+        label: "Settings",
     },
 ];
 </script>
@@ -26,8 +29,8 @@ const tabItems = [
             v-if="item.label === 'HTML'"
             class="size-5"
           />
-          <SkillIconsCss v-else />
-          <p class="text-xl font-bold">
+          <SkillIconsCss v-else-if="item.label === 'CSS'" />
+          <p class="text-lg font-medium">
             {{ item.label }}
           </p>
         </div>
@@ -39,12 +42,30 @@ const tabItems = [
             language="html"
           />
         </div>
-        <div v-else>
+        <div v-else-if="item.label === 'CSS'">
           <CodeEditor
             v-model="css"
             language="css"
           />
         </div>
+        <UCard v-else-if="item.label === 'Settings'">
+          <UFormGroup
+            label="Title"
+            class="mb-6"
+          >
+            <UInput
+              v-model="title"
+              class="w-80"
+            />
+          </UFormGroup>
+          <UFormGroup label="Scale">
+            <URange
+              v-model="scale"
+              :min="0"
+              :max="200"
+            />
+          </UFormGroup>
+        </UCard>
       </template>
     </UTabs>
   </div>

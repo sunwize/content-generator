@@ -1,11 +1,10 @@
 <script lang="ts" setup>
 import { formatCode } from "~/assets/utils/formatter";
 import { keyboard } from "~/assets/utils/sound";
-import { completedSteps, css, html, stepIndex, steps } from "~/stores";
+import { completedSteps, css, html, isPlaying, isPreview, stepIndex, steps } from "~/stores";
+import SolarEyeLinear from "~icons/solar/eye-linear";
 import SolarPlayLinear from "~icons/solar/play-linear";
 import SolarStopLinear from "~icons/solar/stop-linear";
-
-const currentStep = computed(() => steps.value[stepIndex.value]);
 
 const extractSelectorDefinitions = (cssBlock: string) => {
     // Remove comments and trim the input
@@ -43,6 +42,12 @@ const generateSteps = async () => {
     }
 };
 
+const play = () => {
+    generateSteps();
+    isPlaying.value = true;
+    isPreview.value = false;
+};
+
 const stop = () => {
     stepIndex.value = 0;
     completedSteps.value = [];
@@ -56,6 +61,17 @@ const stop = () => {
     if (sandbox?.shadowRoot) {
         sandbox.shadowRoot.innerHTML = "";
     }
+    isPlaying.value = false;
+};
+
+const togglePreview = async () => {
+    const newValue = !isPreview.value;
+
+    if (newValue) {
+        await generateSteps();
+    }
+
+    isPreview.value = newValue;
 };
 </script>
 
@@ -63,11 +79,11 @@ const stop = () => {
   <ul class="bg-slate-900 rounded-xl flex items-center justify-center gap-3 px-3 py-2">
     <li>
       <UButton
-        v-if="!currentStep"
+        v-if="!isPlaying"
         variant="ghost"
         size="lg"
         color="primary"
-        @click="generateSteps"
+        @click="play"
       >
         <SolarPlayLinear class="size-6" />
       </UButton>
@@ -79,6 +95,17 @@ const stop = () => {
         @click="stop"
       >
         <SolarStopLinear class="size-6" />
+      </UButton>
+    </li>
+    <li>
+      <UButton
+        color="gray"
+        size="lg"
+        :variant="isPreview ? 'solid' : 'ghost'"
+        :disabled="isPlaying"
+        @click="togglePreview"
+      >
+        <SolarEyeLinear class="size-6" />
       </UButton>
     </li>
   </ul>

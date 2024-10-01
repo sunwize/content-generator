@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import LiveEditor from "~/components/LiveEditor.vue";
 import Sandbox from "~/components/Sandbox.vue";
-import { completedSteps, stepIndex, steps, title } from "~/stores";
+import { completedSteps, isPlaying, isPreview, stepIndex, steps, title } from "~/stores";
 
 const currentStep = computed(() => steps.value[stepIndex.value]);
 
@@ -25,12 +25,12 @@ const nextStep = () => {
       </p>
       <div class="relative flex-1 flex items-center justify-center">
         <div class="absolute inset-12 flex items-center justify-center">
-          <Sandbox />
+          <Sandbox :preview="isPreview" />
         </div>
       </div>
       <ClientOnly>
         <div
-          v-if="currentStep"
+          v-if="currentStep && isPlaying"
           :key="stepIndex"
           class="px-3"
         >

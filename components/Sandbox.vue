@@ -9,7 +9,7 @@ const generateSandbox = async () => {
 
     const div = sandbox.shadowRoot ?? sandbox.attachShadow({ mode: "open" });
     div.innerHTML = "";
-    const htmlSteps = completedSteps.value.filter((step) => step.language === "xml");
+    const htmlSteps = completedSteps.value.filter((step) => step.language === "html");
 
     for (const step of htmlSteps) {
         div.innerHTML += await formatCode(step.code, step.language);

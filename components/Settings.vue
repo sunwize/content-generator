@@ -12,9 +12,6 @@ const tabItems = [
         label: "CSS",
     },
 ];
-
-html.value = html.value.trim();
-css.value = css.value.trim();
 </script>
 
 <template>

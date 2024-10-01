@@ -3,9 +3,6 @@ import hljs from "highlight.js/lib/core";
 import css from "highlight.js/lib/languages/css";
 import javascript from "highlight.js/lib/languages/javascript";
 import xml from "highlight.js/lib/languages/xml";
-import prettierHTML from "prettier/plugins/html";
-import prettierCSS from "prettier/plugins/postcss";
-import prettier from "prettier/standalone";
 
 hljs.registerLanguage("javascript", javascript);
 hljs.registerLanguage("css", css);
@@ -24,7 +21,6 @@ type Emits = {
 const props = defineProps<Props>();
 const emit = defineEmits<Emits>();
 
-const formattedCode = ref("");
 const codeBlockEl = ref<HTMLElement>();
 
 let timeout: ReturnType<typeof setTimeout> | null = null;
@@ -38,28 +34,10 @@ const randomNumber = (min: number, max: number) => {
     return Math.floor(Math.random() * (max - min) + min);
 };
 
-const minifyCode = (code: string) => {
-    return code
-        .replace(/\/\*[\s\S]*?\*\//g, "")  // Remove multi-line comments (/* */)
-        .replace(/\/\/.*/g, "")            // Remove single-line comments (//)
-        .replace(/\n\s*/g, "")             // Remove newlines and excess spaces
-        .replace(/\s*{\s*/g, "{")          // Remove space before and after curly braces
-        .replace(/\s*}\s*/g, "}")          // Remove space before and after closing curly braces
-        .replace(/\s*;\s*/g, ";")          // Remove space before and after semicolons
-        .replace(/\s*:\s*/g, ":")          // Remove space before and after colons
-        .trim();                           // Remove leading and trailing spaces
-};
-
 const typeNextChar = async () => {
     if (!codeBlockEl.value) return;
 
     codeBlockEl.value.style.height = "5rem";
-
-    formattedCode.value = await prettier.format(minifyCode(props.code), {
-        parser: props.language === "xml" ? "html" : props.language,
-        plugins: [prettierHTML, prettierCSS],
-    });
-    formattedCode.value = formattedCode.value.trim();
 
     let typedText = "";
     let index = 0;
@@ -67,8 +45,8 @@ const typeNextChar = async () => {
     const _typeNextChar = () => {
         if (!codeBlockEl.value) return;
 
-        if (index < formattedCode.value.length) {
-            typedText += formattedCode.value[index];
+        if (index < props.code.length) {
+            typedText += props.code[index];
             codeBlockEl.value.textContent = typedText;
             index++;
 

@@ -1,9 +1,8 @@
 <script lang="ts" setup>
 import LiveEditor from "~/components/LiveEditor.vue";
 import Sandbox from "~/components/Sandbox.vue";
-import { completedSteps, filename, steps, title } from "~/stores";
+import { completedSteps, stepIndex, steps, title } from "~/stores";
 
-const stepIndex = ref(0);
 const currentStep = computed(() => steps.value[stepIndex.value]);
 
 const nextStep = () => {
@@ -17,7 +16,7 @@ const nextStep = () => {
 </script>
 
 <template>
-  <div class="relative flex flex-col bg-slate-900 max-w-sm aspect-[9/16] overflow-hidden pt-20 pb-28">
+  <div class="relative flex flex-col w-full bg-slate-900 max-w-sm aspect-[9/16] overflow-hidden pt-20 pb-28">
     <div class="grid-background" />
     <div class="shade-background" />
     <div class="relative flex-1 flex flex-col">
@@ -35,7 +34,7 @@ const nextStep = () => {
         class="px-3"
       >
         <LiveEditor
-          :filename="filename"
+          :filename="currentStep.filename"
           :code="currentStep.code"
           :language="currentStep.language"
           @step-done="nextStep"

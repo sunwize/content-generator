@@ -1,7 +1,6 @@
 import type { TutorialStep } from "~/types/TutorialStep";
 
-export const filename = ref("index.js");
-export const title = ref("Status Window Indicator");
+export const title = ref("Enter title");
 export const html = ref(`<div>
   <p id="prout">
     <button class="test">Button</button>
@@ -27,5 +26,6 @@ button:active {
 }
   `);
 
+export const stepIndex = ref(0);
 export const steps = ref<TutorialStep[]>([]);
 export const completedSteps = ref<TutorialStep[]>([]);

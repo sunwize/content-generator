@@ -1,6 +1,6 @@
 <script lang="ts" setup>
-import { minifyCode } from "~/assets/utils/formatter";
-import { completedSteps, css, html, steps } from "~/stores";
+import { formatCode } from "~/assets/utils/formatter";
+import { completedSteps, css, html, stepIndex, steps } from "~/stores";
 import SolarPlayLinear from "~icons/solar/play-linear";
 
 const extractSelectorDefinitions = (cssBlock: string) => {
@@ -20,21 +20,23 @@ const extractSelectorDefinitions = (cssBlock: string) => {
     return selectorDefinitions;
 };
 
-const generateSteps = () => {
+const generateSteps = async () => {
+    stepIndex.value = 0;
+    completedSteps.value = [];
     steps.value = [];
     steps.value.push({
         filename: "index.html",
-        code: minifyCode(html.value),
-        language: "xml",
+        code: await formatCode(html.value, "html"),
+        language: "html",
     });
     const selectors = extractSelectorDefinitions(css.value);
-    steps.value.push(...selectors.map((selector) => ({
-        filename: "styles.css",
-        code: minifyCode(selector),
-        language: "css",
-    })));
-
-    completedSteps.value = [];
+    for (const selector of selectors) {
+        steps.value.push({
+            filename: "styles.css",
+            code: await formatCode(selector, "css"),
+            language: "css",
+        });
+    }
 };
 </script>
 

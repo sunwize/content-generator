@@ -10,6 +10,7 @@ type Props = {
 const props = defineProps<Props>();
 
 const modelValue = defineModel<string>({ required: true });
+const wrapper = ref<HTMLElement>();
 const codeElement = ref<HTMLElement>();
 const tooltip = ref("Copy to clipboard");
 
@@ -27,6 +28,13 @@ const copyToClipboard = () => {
     setTimeout(() => {
         tooltip.value = "Copy to clipboard";
     }, 1000);
+};
+
+const onScroll = (event: Event) => {
+    if (!wrapper.value) return;
+
+    const el = event.target as HTMLTextAreaElement;
+    wrapper.value.style.transform = `translate(-${el.scrollLeft}px, -${el.scrollTop}px)`;
 };
 
 onMounted(() => {
@@ -59,15 +67,19 @@ onMounted(() => {
         </UButton>
       </UTooltip>
     </div>
-    <div class="relative bg-slate-900 rounded-b-lg px-3 py-2">
+    <div class="relative bg-slate-900 rounded-b-lg h-80 overflow-hidden px-3 py-2">
       <textarea
         v-model="modelValue"
         spellcheck="false"
-        class="absolute inset-0 px-3 py-2 z-[1] whitespace-pre resize-none outline-none font-mono bg-transparent text-transparent caret-white/80 text-sm leading-relaxed"
+        class="absolute inset-0 px-3 py-2 z-[1] h-80 overflow-auto whitespace-pre resize-none outline-none font-mono bg-transparent text-white/0 caret-white/80 text-sm leading-relaxed"
+        @scroll="onScroll"
       />
-      <pre class="relative z-0"><code
+      <pre
+        ref="wrapper"
+        class="relative z-0"
+      ><code
       ref="codeElement"
-      class="block font-mono text-sm leading-relaxed whitespace-pre-wrap !p-0"
+      class="block font-mono text-sm leading-relaxed whitespace-pre !p-0"
       /></pre>
     </div>
   </div>

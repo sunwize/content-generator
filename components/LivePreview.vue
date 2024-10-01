@@ -37,6 +37,7 @@ const nextStep = () => {
           :filename="currentStep.filename"
           :code="currentStep.code"
           :language="currentStep.language"
+          :animate="stepIndex === 0"
           @step-done="nextStep"
         />
       </div>

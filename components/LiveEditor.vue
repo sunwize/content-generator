@@ -12,6 +12,7 @@ type Props = {
   filename: string;
   code: string;
   language: string;
+  animate: boolean;
 };
 
 type Emits = {
@@ -24,11 +25,6 @@ const emit = defineEmits<Emits>();
 const codeBlockEl = ref<HTMLElement>();
 
 let timeout: ReturnType<typeof setTimeout> | null = null;
-
-const countLines = (str: string) => {
-    const lines = str.split("\n");
-    return lines.length;
-};
 
 const randomNumber = (min: number, max: number) => {
     return Math.floor(Math.random() * (max - min) + min);
@@ -53,8 +49,8 @@ const typeNextChar = async () => {
             delete codeBlockEl.value.dataset.highlighted;
             hljs.highlightElement(codeBlockEl.value);
 
-            // timeout = setTimeout(_typeNextChar, randomNumber(30, 50));
-            timeout = setTimeout(_typeNextChar, 0);
+            timeout = setTimeout(_typeNextChar, randomNumber(30, 50));
+            // timeout = setTimeout(_typeNextChar, 0);
         } else {
             emit("step-done");
         }
@@ -96,7 +92,7 @@ onBeforeUnmount(() => {
       <div
         id="code"
         ref="codeBlockEl"
-        :class="`font-mono text-xs h-0 transition-all ease-in-out duration-500 language-${language}`"
+        :class="[`font-mono text-xs transition-all ease-in-out duration-500 language-${language}`, animate && 'appear']"
       />
     </div>
   </div>
@@ -134,5 +130,18 @@ onBeforeUnmount(() => {
     100% {
       opacity: 1;
     }
+}
+
+@keyframes appear {
+    0% {
+      height: 0;
+    }
+    100% {
+      height: 5rem;
+    }
+}
+
+.appear {
+    animation: appear 300ms ease-in-out;
 }
 </style>

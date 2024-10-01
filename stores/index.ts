@@ -1,11 +1,8 @@
 import type { TutorialStep } from "~/types/TutorialStep";
 
-export const title = ref("Enter title");
-export const html = ref(`<div>
-  <p id="prout">
-    <button class="test">Button</button>
-  </p>
-</div>`);
+export const html = ref(`
+  <button>Button</button>
+`);
 export const css = ref(`
 button {
   font-size: 1.5rem;
@@ -24,8 +21,9 @@ button:active {
   box-shadow: none;
   transform: translate(3px, 3px);
 }
-  `);
+`);
 
+export const title = ref("Enter title");
 export const stepIndex = ref(0);
 export const steps = ref<TutorialStep[]>([]);
 export const completedSteps = ref<TutorialStep[]>([]);

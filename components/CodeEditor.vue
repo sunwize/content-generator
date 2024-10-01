@@ -1,7 +1,8 @@
 <script lang="ts" setup>
 import hljs from "highlight.js";
 
-import MaterialSymbolsLightContentCopyOutlineRounded from "~icons/material-symbols-light/content-copy-outline-rounded";
+import PhBroom from "~icons/ph/broom";
+import PhCopy from "~icons/ph/copy";
 
 type Props = {
   language: string;
@@ -53,19 +54,35 @@ onMounted(() => {
       <p class="text-xs text-white/50 uppercase">
         {{ language }}
       </p>
-      <UTooltip
-        :text="tooltip"
-        :popper="{ placement: 'left' }"
-      >
-        <UButton
-          variant="ghost"
-          color="gray"
-          class="p-0"
-          @click="copyToClipboard"
+      <div class="flex items-center gap-4">
+        <UTooltip
+          text="Clear code"
+          :popper="{ placement: 'top' }"
         >
-          <MaterialSymbolsLightContentCopyOutlineRounded class="size-5" />
-        </UButton>
-      </UTooltip>
+          <UButton
+            variant="ghost"
+            color="gray"
+            class="p-0"
+            @click="modelValue = ''"
+          >
+            <PhBroom />
+          </UButton>
+        </UTooltip>
+
+        <UTooltip
+          :text="tooltip"
+          :popper="{ placement: 'top' }"
+        >
+          <UButton
+            variant="ghost"
+            color="gray"
+            class="p-0"
+            @click="copyToClipboard"
+          >
+            <PhCopy />
+          </UButton>
+        </UTooltip>
+      </div>
     </div>
     <div class="relative bg-slate-900 rounded-b-lg h-80 overflow-hidden px-3 py-2">
       <textarea

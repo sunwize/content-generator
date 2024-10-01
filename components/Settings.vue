@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import CodeEditor from "~/components/CodeEditor.vue";
 import { css, html, scale, skipHTML, title } from "~/stores";
+import NotoV1Gear from "~icons/noto-v1/gear";
 import SkillIconsCss from "~icons/skill-icons/css";
 import SkillIconsHtml from "~icons/skill-icons/html";
 
@@ -29,7 +30,14 @@ const tabItems = [
             v-if="item.label === 'HTML'"
             class="size-5"
           />
-          <SkillIconsCss v-else-if="item.label === 'CSS'" />
+          <SkillIconsCss
+            v-else-if="item.label === 'CSS'"
+            class="size-5"
+          />
+          <NotoV1Gear
+            v-else-if="item.label === 'Settings'"
+            class="size-5"
+          />
           <p class="text-lg font-medium">
             {{ item.label }}
           </p>

@@ -72,7 +72,7 @@ const nextStep = () => {
   background-size: 50px 50px;
   background-image: linear-gradient(to right, rgba(255, 255, 255, 0.1) 1px, transparent 1px),
                     linear-gradient(to bottom, rgba(255, 255, 255, 0.1) 1px, transparent 1px);
-  animation: scroll-grid 3s linear infinite;
+  animation: scroll-grid 0.75s linear infinite;
   pointer-events: none;
 }
 
@@ -91,7 +91,7 @@ const nextStep = () => {
   left: 0;
   width: 100%;
   height: 100%;
-  background: linear-gradient(to bottom, rgba(0,0,0,0) 50%, rgba(0,0,0,0.8) 80%);
+  background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0) 80%);
   pointer-events: none;
 }
 </style>

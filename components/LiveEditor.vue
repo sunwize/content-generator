@@ -5,6 +5,7 @@ import javascript from "highlight.js/lib/languages/javascript";
 import xml from "highlight.js/lib/languages/xml";
 
 import { keyboard, whoosh } from "~/assets/utils/sound";
+import { isPlaying } from "~/stores";
 
 hljs.registerLanguage("javascript", javascript);
 hljs.registerLanguage("css", css);
@@ -70,6 +71,8 @@ const typeNextChar = () => {
     };
 
     setTimeout(() => {
+        if (!isPlaying.value) return;
+
         _typeNextChar();
         keyboard.play();
     }, 500); // Wait for the initial animation to finish

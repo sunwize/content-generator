@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { formatCode } from "~/assets/utils/formatter";
-import { keyboard } from "~/assets/utils/sound";
+import * as sounds from "~/assets/utils/sound";
 import { completedSteps, css, html, isPlaying, isPreview, isPreviewCode, skipHTML, stepIndex, steps } from "~/stores";
 import SolarEyeLinear from "~icons/solar/eye-linear";
 import SolarPlayLinear from "~icons/solar/play-linear";
@@ -56,8 +56,10 @@ const stop = () => {
     completedSteps.value = [];
     steps.value = [];
 
-    keyboard.pause();
-    keyboard.currentTime = 0;
+    Object.values(sounds).forEach((sound) => {
+        sound.pause();
+        sound.currentTime = 0;
+    });
 
     const sandbox = document.querySelector("#sandbox");
 

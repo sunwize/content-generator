@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import LivePreview from "~/components/LivePreview.vue";
 import PreviewStatusBar from "~/components/PreviewStatusBar.vue";
-import Settings from "~/components/Settings.vue";
+import Settings from "~/components/settings/index.vue";
 </script>
 
 <template>

@@ -1,12 +1,16 @@
 <script lang="ts" setup>
 import { formatCode } from "~/assets/utils/formatter";
-import { completedSteps, steps } from "~/stores";
+import { completedSteps, scale, steps } from "~/stores";
 
 type Props = {
     preview: boolean;
 };
 
 const props = defineProps<Props>();
+
+const style = computed(() => ({
+    transform: `scale(${scale.value}%)`,
+}));
 
 const generateSandbox = async () => {
     const sandbox = document.querySelector("#sandbox");
@@ -79,9 +83,11 @@ onMounted(() => {
   <div
     v-if="preview"
     id="preview"
+    :style="style"
   />
   <div
     v-else
     id="sandbox"
+    :style="style"
   />
 </template>

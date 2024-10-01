@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import LiveEditor from "~/components/LiveEditor.vue";
 import Sandbox from "~/components/Sandbox.vue";
-import { completedSteps, isPlaying, isPreview, stepIndex, steps, title } from "~/stores";
+import { completedSteps, html, isPlaying, isPreview, isPreviewCode, stepIndex, steps, title } from "~/stores";
 
 const currentStep = computed(() => steps.value[stepIndex.value]);
 
@@ -30,6 +30,18 @@ const nextStep = () => {
       </div>
       <ClientOnly>
         <div
+          v-if="isPreviewCode"
+          class="px-3"
+        >
+          <LiveEditor
+            filename="index.html"
+            :code="html"
+            language="html"
+            :animate="false"
+            preview
+          />
+        </div>
+        <div
           v-if="currentStep && isPlaying"
           :key="stepIndex"
           class="px-3"
@@ -39,6 +51,7 @@ const nextStep = () => {
             :code="currentStep.code"
             :language="currentStep.language"
             :animate="stepIndex === 0"
+            :preview="false"
             @step-done="nextStep"
           />
         </div>

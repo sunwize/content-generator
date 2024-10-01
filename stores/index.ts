@@ -32,3 +32,4 @@ export const completedSteps = ref<TutorialStep[]>([]);
 
 export const isPlaying = ref(false);
 export const isPreview = ref(false);
+export const isPreviewCode = ref(false);

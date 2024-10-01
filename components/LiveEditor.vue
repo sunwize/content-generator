@@ -15,6 +15,7 @@ type Props = {
   code: string;
   language: string;
   animate: boolean;
+  preview: boolean;
 };
 
 type Emits = {
@@ -32,8 +33,15 @@ const randomNumber = (min: number, max: number) => {
     return Math.floor(Math.random() * (max - min) + min);
 };
 
-const typeNextChar = () => {
+const highlightCode = () => {
     if (!codeBlockEl.value) return;
+
+    delete codeBlockEl.value.dataset.highlighted;
+    hljs.highlightElement(codeBlockEl.value);
+};
+
+const typeNextChar = () => {
+    if (!codeBlockEl.value || props.preview) return;
 
     let typedText = "";
     let index = 0;
@@ -47,8 +55,7 @@ const typeNextChar = () => {
             codeBlockEl.value.textContent = typedText;
             index++;
 
-            delete codeBlockEl.value.dataset.highlighted;
-            hljs.highlightElement(codeBlockEl.value);
+            highlightCode();
 
             timeout = setTimeout(_typeNextChar, randomNumber(30, 50));
             // timeout = setTimeout(_typeNextChar, 0);
@@ -70,6 +77,11 @@ onMounted(() => {
     if (props.animate) {
         whoosh.currentTime = 0;
         whoosh.play();
+    }
+
+    if (props.preview && codeBlockEl.value) {
+        codeBlockEl.value.textContent = props.code;
+        highlightCode();
     }
 
     setTimeout(typeNextChar, 500);

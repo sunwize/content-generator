@@ -1,9 +1,10 @@
 <script lang="ts" setup>
 import { formatCode } from "~/assets/utils/formatter";
 import { keyboard } from "~/assets/utils/sound";
-import { completedSteps, css, html, isPlaying, isPreview, stepIndex, steps } from "~/stores";
+import { completedSteps, css, html, isPlaying, isPreview, isPreviewCode, stepIndex, steps } from "~/stores";
 import SolarEyeLinear from "~icons/solar/eye-linear";
 import SolarPlayLinear from "~icons/solar/play-linear";
+import SolarProgrammingLinear from "~icons/solar/programming-linear";
 import SolarStopLinear from "~icons/solar/stop-linear";
 
 const extractSelectorDefinitions = (cssBlock: string) => {
@@ -46,6 +47,7 @@ const play = () => {
     generateSteps();
     isPlaying.value = true;
     isPreview.value = false;
+    isPreviewCode.value = false;
 };
 
 const stop = () => {
@@ -106,6 +108,17 @@ const togglePreview = async () => {
         @click="togglePreview"
       >
         <SolarEyeLinear class="size-6" />
+      </UButton>
+    </li>
+    <li>
+      <UButton
+        color="gray"
+        size="lg"
+        :variant="isPreviewCode ? 'solid' : 'ghost'"
+        :disabled="isPlaying"
+        @click="isPreviewCode = !isPreviewCode"
+      >
+        <SolarProgrammingLinear class="size-6" />
       </UButton>
     </li>
   </ul>

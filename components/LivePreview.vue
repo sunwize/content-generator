@@ -1,9 +1,11 @@
 <script lang="ts" setup>
 import LiveEditor from "~/components/LiveEditor.vue";
 import Sandbox from "~/components/Sandbox.vue";
-import { completedSteps, html, isPlaying, isPreview, isPreviewCode, stepIndex, steps, title } from "~/stores";
+import { completedSteps, html, isPlaying, isPreview, isPreviewCode, skipHTML, stepIndex, steps, title } from "~/stores";
 
 const currentStep = computed(() => steps.value[stepIndex.value]);
+
+const animate = computed(() => stepIndex.value === 0 || (skipHTML.value && stepIndex.value === 1));
 
 const nextStep = () => {
     completedSteps.value.push(currentStep.value);
@@ -50,7 +52,7 @@ const nextStep = () => {
             :filename="currentStep.filename"
             :code="currentStep.code"
             :language="currentStep.language"
-            :animate="stepIndex === 0"
+            :animate="animate"
             :preview="false"
             @step-done="nextStep"
           />

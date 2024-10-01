@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import CodeEditor from "~/components/CodeEditor.vue";
-import { css, html, scale, title } from "~/stores";
+import { css, html, scale, skipHTML, title } from "~/stores";
 import SkillIconsCss from "~icons/skill-icons/css";
 import SkillIconsHtml from "~icons/skill-icons/html";
 
@@ -58,13 +58,20 @@ const tabItems = [
               class="w-80"
             />
           </UFormGroup>
-          <UFormGroup label="Scale">
+          <UFormGroup
+            label="Scale"
+            class="mb-6"
+          >
             <URange
               v-model="scale"
               :min="0"
               :max="200"
             />
           </UFormGroup>
+          <UCheckbox
+            v-model="skipHTML"
+            label="Skip HTML"
+          />
         </UCard>
       </template>
     </UTabs>

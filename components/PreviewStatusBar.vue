@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { formatCode } from "~/assets/utils/formatter";
 import { keyboard } from "~/assets/utils/sound";
-import { completedSteps, css, html, isPlaying, isPreview, isPreviewCode, stepIndex, steps } from "~/stores";
+import { completedSteps, css, html, isPlaying, isPreview, isPreviewCode, skipHTML, stepIndex, steps } from "~/stores";
 import SolarEyeLinear from "~icons/solar/eye-linear";
 import SolarPlayLinear from "~icons/solar/play-linear";
 import SolarProgrammingLinear from "~icons/solar/programming-linear";
@@ -25,8 +25,7 @@ const extractSelectorDefinitions = (cssBlock: string) => {
 };
 
 const generateSteps = async () => {
-    stepIndex.value = 0;
-    completedSteps.value = [];
+    stepIndex.value = skipHTML.value ? 1 : 0;
     steps.value = [];
     steps.value.push({
         filename: "index.html",
@@ -41,6 +40,8 @@ const generateSteps = async () => {
             language: "css",
         });
     }
+
+    completedSteps.value = skipHTML.value ? [steps.value[0]] : [];
 };
 
 const play = () => {

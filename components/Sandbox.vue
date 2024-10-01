@@ -9,7 +9,9 @@ type Props = {
 const props = defineProps<Props>();
 
 const style = computed(() => ({
-    transform: `scale(${scale.value}%)`,
+    transform: `scale(${scale.value}%) translateZ(0)`,
+    backfaceVisibility: "hidden",
+    "-webkit-font-smoothing": "subpixel-antialiased",
 }));
 
 const generateSandbox = async () => {

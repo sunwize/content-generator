@@ -4,6 +4,8 @@ import css from "highlight.js/lib/languages/css";
 import javascript from "highlight.js/lib/languages/javascript";
 import xml from "highlight.js/lib/languages/xml";
 
+import { keyboard, whoosh } from "~/assets/utils/sound";
+
 hljs.registerLanguage("javascript", javascript);
 hljs.registerLanguage("css", css);
 hljs.registerLanguage("xml", xml);
@@ -30,13 +32,12 @@ const randomNumber = (min: number, max: number) => {
     return Math.floor(Math.random() * (max - min) + min);
 };
 
-const typeNextChar = async () => {
+const typeNextChar = () => {
     if (!codeBlockEl.value) return;
-
-    codeBlockEl.value.style.height = "5rem";
 
     let typedText = "";
     let index = 0;
+    keyboard.play();
 
     const _typeNextChar = () => {
         if (!codeBlockEl.value) return;
@@ -52,6 +53,7 @@ const typeNextChar = async () => {
             timeout = setTimeout(_typeNextChar, randomNumber(30, 50));
             // timeout = setTimeout(_typeNextChar, 0);
         } else {
+            keyboard.pause();
             emit("step-done");
         }
 
@@ -65,7 +67,12 @@ const typeNextChar = async () => {
 };
 
 onMounted(() => {
-    typeNextChar();
+    if (props.animate) {
+        whoosh.currentTime = 0;
+        whoosh.play();
+    }
+
+    setTimeout(typeNextChar, 500);
 });
 
 onBeforeUnmount(() => {
@@ -76,7 +83,10 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-  <div class="ring-1 ring-white/20 rounded-2xl bg-slate-800 shadow-xl pt-3 pb-1">
+  <div
+    class="ring-1 ring-white/20 rounded-2xl bg-slate-800 shadow-xl pt-3 pb-1"
+    :class="[animate && 'fly']"
+  >
     <div class="flex items-center mb-3">
       <div class="flex items-center gap-1.5 px-4">
         <div class="size-3 bg-red-500 rounded-full" />
@@ -92,7 +102,8 @@ onBeforeUnmount(() => {
       <div
         id="code"
         ref="codeBlockEl"
-        :class="[`font-mono text-xs transition-all ease-in-out duration-500 language-${language}`, animate && 'appear']"
+        class="font-mono text-xs h-[5rem] transition-all ease-in-out duration-500"
+        :class="[`language-${language}`, animate && 'h-expand']"
       />
     </div>
   </div>
@@ -132,7 +143,7 @@ onBeforeUnmount(() => {
     }
 }
 
-@keyframes appear {
+@keyframes h-expand {
     0% {
       height: 0;
     }
@@ -141,7 +152,22 @@ onBeforeUnmount(() => {
     }
 }
 
-.appear {
-    animation: appear 300ms ease-in-out;
+.h-expand {
+    animation: h-expand 300ms ease-in-out;
+}
+
+@keyframes fly {
+    0% {
+      opacity: 0;
+      transform: translateY(100px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+}
+
+.fly {
+    animation: fly 300ms ease-in-out;
 }
 </style>

@@ -28,19 +28,21 @@ const nextStep = () => {
           <Sandbox />
         </div>
       </div>
-      <div
-        v-if="currentStep"
-        :key="stepIndex"
-        class="px-3"
-      >
-        <LiveEditor
-          :filename="currentStep.filename"
-          :code="currentStep.code"
-          :language="currentStep.language"
-          :animate="stepIndex === 0"
-          @step-done="nextStep"
-        />
-      </div>
+      <ClientOnly>
+        <div
+          v-if="currentStep"
+          :key="stepIndex"
+          class="px-3"
+        >
+          <LiveEditor
+            :filename="currentStep.filename"
+            :code="currentStep.code"
+            :language="currentStep.language"
+            :animate="stepIndex === 0"
+            @step-done="nextStep"
+          />
+        </div>
+      </ClientOnly>
     </div>
   </div>
 </template>

@@ -6,6 +6,7 @@ import PhCopy from "~icons/ph/copy";
 
 type Props = {
   language: string;
+  lines?: number;
 };
 
 const props = defineProps<Props>();
@@ -14,6 +15,9 @@ const modelValue = defineModel<string>({ required: true });
 const wrapper = ref<HTMLElement>();
 const codeElement = ref<HTMLElement>();
 const tooltip = ref("Copy to clipboard");
+const style = computed(() => ({
+    height: `${props.lines ?? 20}rem`,
+}));
 
 const highlightCode = () => {
     if (!codeElement.value) return;
@@ -84,11 +88,15 @@ onMounted(() => {
         </UTooltip>
       </div>
     </div>
-    <div class="relative bg-slate-900 rounded-b-lg h-80 overflow-hidden px-3 py-2">
+    <div
+      class="relative bg-slate-900 rounded-b-lg overflow-hidden px-3 py-2"
+      :style="style"
+    >
       <textarea
         v-model="modelValue"
         spellcheck="false"
-        class="absolute inset-0 px-3 py-2 z-[1] h-80 overflow-auto whitespace-pre resize-none outline-none font-mono bg-transparent text-white/0 caret-white/80 text-sm leading-relaxed"
+        class="absolute inset-0 px-3 py-2 z-[1] overflow-auto whitespace-pre resize-none outline-none font-mono bg-transparent text-white/0 caret-white/80 text-sm leading-relaxed"
+        :style="style"
         @scroll="onScroll"
       />
       <pre

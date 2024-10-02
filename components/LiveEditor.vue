@@ -5,7 +5,7 @@ import javascript from "highlight.js/lib/languages/javascript";
 import xml from "highlight.js/lib/languages/xml";
 
 import { keyboard, pop, whoosh } from "~/assets/utils/sound";
-import { isPlaying } from "~/stores";
+import { isPlaying, typingSpeed } from "~/stores";
 
 hljs.registerLanguage("javascript", javascript);
 hljs.registerLanguage("css", css);
@@ -57,8 +57,8 @@ const typeNextChar = () => {
 
             highlightCode();
 
-            timeout = setTimeout(_typeNextChar, randomNumber(30, 50));
-            // timeout = setTimeout(_typeNextChar, 0);
+            // timeout = setTimeout(_typeNextChar, randomNumber(30, 50));
+            timeout = setTimeout(_typeNextChar, 30 / typingSpeed.value);
         } else {
             keyboard.pause();
             pop.currentTime = 0;
@@ -77,7 +77,7 @@ const typeNextChar = () => {
 
         _typeNextChar();
         keyboard.play();
-    }, 500); // Wait for the initial animation to finish
+    }, 500 / typingSpeed.value); // Wait for the initial animation to finish
 };
 
 onMounted(() => {
@@ -91,7 +91,7 @@ onMounted(() => {
         highlightCode();
     }
 
-    timeout = setTimeout(typeNextChar, 500);
+    timeout = setTimeout(typeNextChar, 50);
 });
 
 onBeforeUnmount(() => {

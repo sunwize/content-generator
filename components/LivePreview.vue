@@ -31,7 +31,7 @@ const nextStep = () => {
       <p class="text-center text-3xl font-bold tracking-wide leading-snug px-3">
         {{ title }}
       </p>
-      <div class="relative flex-1 flex items-center justify-center">
+      <div class="relative flex-1 flex items-center justify-center overflow-hidden">
         <div class="absolute inset-12 flex items-center justify-center">
           <Sandbox :preview="isPreview" />
         </div>

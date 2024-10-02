@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { formatCode } from "~/assets/utils/formatter";
-import { renderStepIndex,scale, steps } from "~/stores";
+import { renderStepIndex, scale, steps, translateY } from "~/stores";
 
 type Props = {
     preview: boolean;
@@ -9,7 +9,7 @@ type Props = {
 const props = defineProps<Props>();
 
 const style = computed(() => ({
-    transform: `scale(${scale.value}%) translateZ(0)`,
+    transform: `scale(${scale.value}%) translateZ(0) translateY(${translateY.value}px)`,
 }));
 
 const generateSandbox = async () => {

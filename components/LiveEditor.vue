@@ -120,7 +120,7 @@ onBeforeUnmount(() => {
       <div
         id="code"
         ref="codeBlockEl"
-        class="font-mono text-sm h-[6rem] transition-all ease-in-out duration-500"
+        class="font-mono text-sm h-[7.5rem] transition-all ease-in-out duration-500"
         :class="[`language-${language}`, animate && 'h-expand']"
       />
     </div>
@@ -170,7 +170,7 @@ onBeforeUnmount(() => {
       height: 0;
     }
     100% {
-      height: 6rem;
+      height: 7.5rem;
     }
 }
 

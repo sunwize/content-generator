@@ -102,7 +102,7 @@ onBeforeUnmount(() => {
 
 <template>
   <div
-    class="ring-1 ring-white/20 rounded-2xl bg-slate-800 shadow-xl pt-3 pb-1"
+    class="relative ring-1 ring-white/20 rounded-2xl bg-slate-800 shadow-xl pt-3 pb-1"
     :class="[animate && 'fly']"
   >
     <div class="flex items-center mb-3">
@@ -124,6 +124,9 @@ onBeforeUnmount(() => {
         :class="[`language-${language}`, animate && 'h-expand']"
       />
     </div>
+    <p class="font-mono text-xs text-gray-400 absolute right-2 -top-5">
+      @ZeroToCommit
+    </p>
   </div>
 </template>
 
@@ -134,6 +137,7 @@ onBeforeUnmount(() => {
 
 #code {
   white-space: pre-wrap;
+  line-break: anywhere;
   overflow: auto;
   scroll-behavior: smooth;
 }

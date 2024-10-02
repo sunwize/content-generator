@@ -15,7 +15,7 @@ import { includedSteps, steps } from "~/stores";
           v-model="includedSteps[index]"
           class="mb-1"
         />
-        <div class="flex-1">
+        <div class="flex-1 overflow-hidden">
           <CodeEditor
             v-model="step.code"
             :language="step.language"

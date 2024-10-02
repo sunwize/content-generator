@@ -11,5 +11,7 @@ const createSong = (name: string, loop = true) => {
 export const keyboard = createSong("keyboard", true);
 export const whoosh = createSong("whoosh", false);
 export const pop = createSong("pop", false);
+export const done = createSong("done", false);
 
 pop.volume = 0.25;
+done.volume = 0.25;

@@ -27,7 +27,7 @@ button:active {
 export const title = ref("Enter title");
 export const scale = ref(100);
 export const translateY = ref(0);
-export const typingSpeed = ref(1);
+export const typingSpeed = ref(5);
 
 export const renderStepIndex = ref(0);
 export const stepIndex = ref(0);

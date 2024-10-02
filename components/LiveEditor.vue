@@ -5,7 +5,7 @@ import javascript from "highlight.js/lib/languages/javascript";
 import xml from "highlight.js/lib/languages/xml";
 
 import { keyboard, pop, whoosh } from "~/assets/utils/sound";
-import { isPlaying, typingSpeed } from "~/stores";
+import { includedSteps, isPlaying, stepIndex, typingSpeed } from "~/stores";
 
 hljs.registerLanguage("javascript", javascript);
 hljs.registerLanguage("css", css);
@@ -30,10 +30,6 @@ const codeBlockEl = ref<HTMLElement>();
 
 let timeout: ReturnType<typeof setTimeout> | null = null;
 
-const randomNumber = (min: number, max: number) => {
-    return Math.floor(Math.random() * (max - min) + min);
-};
-
 const highlightCode = () => {
     if (!codeBlockEl.value) return;
 
@@ -57,12 +53,15 @@ const typeNextChar = () => {
 
             highlightCode();
 
-            // timeout = setTimeout(_typeNextChar, randomNumber(30, 50));
             timeout = setTimeout(_typeNextChar, 30 / typingSpeed.value);
         } else {
             keyboard.pause();
-            pop.currentTime = 0;
-            pop.play();
+
+            if (stepIndex.value === includedSteps.value.indexOf(true)) {
+                pop.currentTime = 0;
+                pop.play();
+            }
+
             emit("step-done");
         }
 

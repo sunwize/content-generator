@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import { done } from "~/assets/utils/sound";
 import LiveEditor from "~/components/LiveEditor.vue";
 import Sandbox from "~/components/Sandbox.vue";
 import { html, includedSteps, isPlaying, isPreview, isPreviewCode, renderStepIndex, stepIndex, steps, title } from "~/stores";
@@ -14,6 +15,9 @@ const nextStep = () => {
 
     if (nextIndex === -1) {
         renderStepIndex.value = steps.value.length;
+        done.currentTime = 0;
+        done.play();
+
         return;
     }
 
@@ -28,42 +32,40 @@ const nextStep = () => {
     <div class="grid-background" />
     <div class="shade-background" />
     <div class="relative flex-1 flex flex-col">
-      <p class="text-center text-3xl font-bold tracking-wide leading-snug px-3">
+      <!-- <p class="text-center text-3xl font-bold tracking-wide leading-snug px-3">
         {{ title }}
-      </p>
-      <div class="relative flex-1 flex items-center justify-center overflow-hidden">
+      </p> -->
+      <div class="relative flex-1 flex items-center justify-center">
         <div class="absolute inset-12 flex items-center justify-center">
           <Sandbox :preview="isPreview" />
         </div>
       </div>
-      <ClientOnly>
-        <div
-          v-if="isPreviewCode"
-          class="px-3"
-        >
-          <LiveEditor
-            filename="index.html"
-            :code="html"
-            language="html"
-            :animate="false"
-            preview
-          />
-        </div>
-        <div
-          v-if="currentStep && isPlaying"
-          :key="stepIndex"
-          class="px-3"
-        >
-          <LiveEditor
-            :filename="currentStep.filename"
-            :code="currentStep.code"
-            :language="currentStep.language"
-            :animate="animate"
-            :preview="false"
-            @step-done="nextStep"
-          />
-        </div>
-      </ClientOnly>
+      <div
+        v-if="isPreviewCode"
+        class="relative z-10 px-3"
+      >
+        <LiveEditor
+          filename="index.html"
+          :code="html"
+          language="html"
+          :animate="false"
+          preview
+        />
+      </div>
+      <div
+        v-if="currentStep && isPlaying"
+        :key="stepIndex"
+        class="relative z-10 px-3"
+      >
+        <LiveEditor
+          :filename="currentStep.filename"
+          :code="currentStep.code"
+          :language="currentStep.language"
+          :animate="animate"
+          :preview="false"
+          @step-done="nextStep"
+        />
+      </div>
     </div>
   </div>
 </template>

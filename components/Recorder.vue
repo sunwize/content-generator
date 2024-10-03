@@ -7,32 +7,27 @@ const props = defineProps<Props>();
 
 let mediaRecorder: MediaRecorder | null = null;
 const recordedChunks: Blob[] = [];
-const video = document.createElement("video");
+const videoElement = ref<HTMLVideoElement>();
 const canvas = document.createElement("canvas");
 
 const startRecording = async () => {
+    const video = document.createElement("video");
+
     const stream = await navigator.mediaDevices.getDisplayMedia({
-        video: true,
+        video: {
+            frameRate: 60,
+        },
         audio: true,
         // @ts-expect-error This is not yet in the TypeScript lib
         preferCurrentTab: true,
         systemAudio: "include",
-        frameRate: 120,
     });
 
     video.srcObject = stream;
+    video.muted = true;
     video.play();
 
-    const element = document.querySelector(props.targetSelector);
-
-    if (!element) {
-        throw new Error("Target element not found");
-    }
-
-    const { left, top, width, height } = element.getBoundingClientRect();
-    const croppedStream = cropVideo(left, top, width, height);
-
-    mediaRecorder = new MediaRecorder(stream, { mimeType: "video/mp4" });
+    mediaRecorder = new MediaRecorder(stream, { mimeType: "video/webm" });
 
     mediaRecorder.ondataavailable = (event) => {
         if (event.data.size > 0) {
@@ -42,13 +37,24 @@ const startRecording = async () => {
 
     mediaRecorder.onstop = () => {
         video.pause();
-        const recordedBlob = new Blob(recordedChunks, { type: "video/mp4" });
+        const recordedBlob = new Blob(recordedChunks, { type: "video/webm" });
+        const fileURL = URL.createObjectURL(recordedBlob);
 
-        const downloadLink = document.createElement("a");
-        downloadLink.href = URL.createObjectURL(recordedBlob);
-        downloadLink.download = "recorded-area.mp4";
-        downloadLink.textContent = "Download video";
-        downloadLink.click();
+        // const downloadLink = document.createElement("a");
+        // downloadLink.href = fileURL;
+        // const filename = new Date().toISOString().replace(/:/g, "-");
+        // downloadLink.download = `${filename}.mp4`;
+        // downloadLink.textContent = "Download video";
+        // downloadLink.click();
+
+        if (!videoElement.value) {
+            return;
+        }
+
+        videoElement.value.src = fileURL;
+        videoElement.value.classList.remove("hidden");
+
+        stream.getTracks().forEach((track) => track.stop());
     };
 
     mediaRecorder.start();
@@ -58,28 +64,33 @@ const stopRecording = () => {
     mediaRecorder?.stop();
 };
 
-const cropVideo = (left: number, top: number, width: number, height: number) => {
-    canvas.width = width;
-    canvas.height = height;
-    const ctx = canvas.getContext("2d");
+// const cropVideo = (left: number, top: number, width: number, height: number) => {
+//     canvas.width = width;
+//     canvas.height = height;
+//     const ctx = canvas.getContext("2d");
 
-    function drawFrame() {
-        if (!canvas || !ctx || video.paused || video.ended) {
-            return;
-        }
+//     function drawFrame() {
+//         if (!canvas || !ctx || video.paused || video.ended) {
+//             return;
+//         }
 
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        ctx.drawImage(video, left, top, width, height, 0, 0, width, height);
-        requestAnimationFrame(drawFrame); // Continuously capture frames
-    }
-    drawFrame();
+//         ctx.clearRect(0, 0, canvas.width, canvas.height);
+//         ctx.drawImage(video, left, top, width, height, 0, 0, width, height);
+//         requestAnimationFrame(drawFrame); // Continuously capture frames
+//     }
+//     drawFrame();
 
-    return canvas.captureStream(60);
-};
+//     return canvas.captureStream(60);
+// };
 </script>
 
 <template>
   <div>
+    <video
+      ref="videoElement"
+      class="hidden w-80"
+      controls
+    />
     <UButton @click="startRecording">
       Start recording
     </UButton>

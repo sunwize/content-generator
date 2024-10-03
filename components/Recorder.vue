@@ -40,13 +40,6 @@ const startRecording = async () => {
         const recordedBlob = new Blob(recordedChunks, { type: "video/webm" });
         const fileURL = URL.createObjectURL(recordedBlob);
 
-        // const downloadLink = document.createElement("a");
-        // downloadLink.href = fileURL;
-        // const filename = new Date().toISOString().replace(/:/g, "-");
-        // downloadLink.download = `${filename}.mp4`;
-        // downloadLink.textContent = "Download video";
-        // downloadLink.click();
-
         if (!videoElement.value) {
             return;
         }

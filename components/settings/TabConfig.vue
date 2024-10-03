@@ -1,18 +1,9 @@
 <script lang="ts" setup>
-import { scale, title, translateY, typingSpeed } from "~/stores";
+import { scale, translateY, typingSpeed } from "~/stores";
 </script>
 
 <template>
   <UCard>
-    <UFormGroup
-      label="Title"
-      class="mb-6"
-    >
-      <UInput
-        v-model="title"
-        class="w-80"
-      />
-    </UFormGroup>
     <UFormGroup
       label="Scale"
       class="w-80 mb-6"

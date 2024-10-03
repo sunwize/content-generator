@@ -2,7 +2,7 @@
 import { done } from "~/assets/utils/sound";
 import LiveEditor from "~/components/LiveEditor.vue";
 import Sandbox from "~/components/Sandbox.vue";
-import { html, includedSteps, isPlaying, isPreview, isPreviewCode, renderStepIndex, stepIndex, steps, title } from "~/stores";
+import { html, includedSteps, isPlaying, isPreview, isPreviewCode, renderStepIndex, stepIndex, steps } from "~/stores";
 
 const currentStep = computed(() => steps.value[stepIndex.value]);
 
@@ -32,14 +32,6 @@ const nextStep = () => {
     <div class="grid-background" />
     <div class="shade-background" />
     <div class="relative flex-1 flex flex-col">
-      <!-- <p class="text-center text-3xl font-bold tracking-wide leading-snug px-3">
-        {{ title }}
-      </p> -->
-      <div class="relative flex-1 flex items-center justify-center">
-        <div class="absolute inset-12 flex items-center justify-center">
-          <Sandbox :preview="isPreview" />
-        </div>
-      </div>
       <div
         v-if="isPreviewCode"
         class="relative z-10 px-3"
@@ -65,6 +57,11 @@ const nextStep = () => {
           :preview="false"
           @step-done="nextStep"
         />
+      </div>
+      <div class="relative flex-1 flex items-center justify-center">
+        <div class="absolute inset-12 flex items-center justify-center">
+          <Sandbox :preview="isPreview" />
+        </div>
       </div>
     </div>
   </div>

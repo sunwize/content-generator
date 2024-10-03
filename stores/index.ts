@@ -24,7 +24,6 @@ button:active {
 }
 `);
 
-export const title = ref("Enter title");
 export const scale = ref(100);
 export const translateY = ref(0);
 export const typingSpeed = ref(3);

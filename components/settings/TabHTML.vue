@@ -9,5 +9,8 @@ import { generateSteps, html } from "~/stores";
       language="html"
       @change="generateSteps"
     />
+    <ClientOnly>
+      <Recorder target-selector="#preview" />
+    </ClientOnly>
   </div>
 </template>

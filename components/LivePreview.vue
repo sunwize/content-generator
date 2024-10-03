@@ -28,7 +28,10 @@ const nextStep = () => {
 </script>
 
 <template>
-  <div class="relative flex flex-col w-full bg-slate-900 max-w-md aspect-[9/16] overflow-hidden pt-20 pb-28">
+  <div
+    id="preview"
+    class="relative flex flex-col w-full bg-slate-900 max-w-md aspect-[9/16] overflow-hidden pt-20 pb-28"
+  >
     <div class="grid-background" />
     <div class="shade-background" />
     <div class="relative flex-1 flex flex-col">

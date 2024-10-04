@@ -90,7 +90,7 @@ const cropVideo = (left: number, top: number, width: number, height: number) => 
         }
 
         ctx.clearRect(0, 0, canvas.width, canvas.height);
-        ctx.drawImage(video, left, top, canvas.width, canvas.height, 0, 0, canvas.width, canvas.height);
+        ctx.drawImage(video, left * scale, top * scale, width * scale, height * scale, 0, 0, width, height);
         requestAnimationFrame(drawFrame); // Continuously capture frames
     }
     drawFrame();

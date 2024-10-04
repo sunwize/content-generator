@@ -18,7 +18,7 @@ onMounted(() => {
       <ClientOnly>
         <div class="col-span-4 flex flex-col gap-3 px-3 py-6">
           <PreviewStatusBar />
-          <div class="flex-1 flex items-start justify-center bg-white/20 rounded-xl p-3">
+          <div class="flex-1 flex items-start justify-center bg-white/20 rounded-lg p-3">
             <LivePreview />
           </div>
         </div>

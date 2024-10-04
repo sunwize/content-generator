@@ -35,7 +35,7 @@ const tabIcons: Record<string, unknown> = {
 </script>
 
 <template>
-  <div class="flex-1 flex flex-col bg-slate-900 shadow-xl rounded-xl px-6 py-5">
+  <UCard class="flex-1 flex flex-col">
     <UTabs
       :items="tabItems"
       class="mb-3"
@@ -57,5 +57,5 @@ const tabIcons: Record<string, unknown> = {
         />
       </template>
     </UTabs>
-  </div>
+  </UCard>
 </template>

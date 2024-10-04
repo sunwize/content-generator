@@ -37,7 +37,7 @@ const nextStep = () => {
     <div class="relative flex-1 flex flex-col">
       <div
         v-if="isPreviewCode"
-        class="relative z-10 px-3"
+        class="relative z-10 px-12"
       >
         <LiveEditor
           filename="index.html"
@@ -50,7 +50,7 @@ const nextStep = () => {
       <div
         v-if="currentStep && isPlaying"
         :key="stepIndex"
-        class="relative z-10 px-3"
+        class="relative z-10 px-12"
       >
         <LiveEditor
           :filename="currentStep.filename"

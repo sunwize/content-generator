@@ -35,12 +35,11 @@ const stop = () => {
 </script>
 
 <template>
-  <ul class="bg-slate-900 rounded-xl flex items-center justify-center gap-3 px-3 py-2">
+  <ul class="bg-slate-900 rounded-lg flex items-center gap-2 px-3 py-2">
     <li>
       <UButton
         v-if="!isPlaying"
         variant="ghost"
-        size="lg"
         color="primary"
         :disabled="steps.length === 0"
         @click="play"
@@ -50,7 +49,6 @@ const stop = () => {
       <UButton
         v-else
         variant="ghost"
-        size="lg"
         color="red"
         @click="stop"
       >
@@ -60,7 +58,6 @@ const stop = () => {
     <li>
       <UButton
         color="gray"
-        size="lg"
         :variant="isPreview ? 'solid' : 'ghost'"
         :disabled="isPlaying"
         @click="isPreview = !isPreview"
@@ -71,7 +68,6 @@ const stop = () => {
     <li>
       <UButton
         color="gray"
-        size="lg"
         :variant="isPreviewCode ? 'solid' : 'ghost'"
         :disabled="isPlaying"
         @click="isPreviewCode = !isPreviewCode"

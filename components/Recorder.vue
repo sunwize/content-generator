@@ -78,8 +78,10 @@ const stopRecording = () => {
 };
 
 const cropVideo = (left: number, top: number, width: number, height: number) => {
-    canvas.width = width;
-    canvas.height = height;
+    canvas.width = width * window.devicePixelRatio;
+    canvas.height = height * window.devicePixelRatio;
+    const x = left * window.devicePixelRatio;
+    const y = top * window.devicePixelRatio;
     const ctx = canvas.getContext("2d");
 
     function drawFrame() {
@@ -88,7 +90,7 @@ const cropVideo = (left: number, top: number, width: number, height: number) => 
         }
 
         ctx.clearRect(0, 0, canvas.width, canvas.height);
-        ctx.drawImage(video, left, top, width, height, 0, 0, width, height);
+        ctx.drawImage(video, x, y, width, height, 0, 0, width, height);
         requestAnimationFrame(drawFrame); // Continuously capture frames
     }
     drawFrame();

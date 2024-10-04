@@ -10,15 +10,13 @@ const props = defineProps<Props>();
 
 let mediaRecorder: MediaRecorder | null = null;
 const recordedChunks: Blob[] = [];
-const videoElement = ref<HTMLVideoElement>();
+const video = document.createElement("video");
 const canvas = document.createElement("canvas");
 const isRecording = ref(false);
 const videoId = crypto.randomUUID();
 const isVideoPreviewVisible = ref(false);
 
 const startRecording = async () => {
-    const video = document.createElement("video");
-
     const stream = await navigator.mediaDevices.getDisplayMedia({
         video: {
             frameRate: 60,
@@ -31,9 +29,18 @@ const startRecording = async () => {
 
     video.srcObject = stream;
     video.muted = true;
-    video.play();
+    await video.play();
 
-    mediaRecorder = new MediaRecorder(stream, { mimeType: "video/webm" });
+    const element = document.querySelector(props.targetSelector);
+
+    if (!element) {
+        throw new Error("Target element not found");
+    }
+
+    const { left, top, width, height } = element.getBoundingClientRect();
+    const croppedStream = cropVideo(left, top, width, height);
+
+    mediaRecorder = new MediaRecorder(croppedStream, { mimeType: "video/webm" });
 
     mediaRecorder.ondataavailable = (event) => {
         if (event.data.size > 0) {
@@ -69,24 +76,24 @@ const stopRecording = () => {
     mediaRecorder?.stop();
 };
 
-// const cropVideo = (left: number, top: number, width: number, height: number) => {
-//     canvas.width = width;
-//     canvas.height = height;
-//     const ctx = canvas.getContext("2d");
+const cropVideo = (left: number, top: number, width: number, height: number) => {
+    canvas.width = width;
+    canvas.height = height;
+    const ctx = canvas.getContext("2d");
 
-//     function drawFrame() {
-//         if (!canvas || !ctx || video.paused || video.ended) {
-//             return;
-//         }
+    function drawFrame() {
+        if (!canvas || !ctx || video.paused || video.ended) {
+            return;
+        }
 
-//         ctx.clearRect(0, 0, canvas.width, canvas.height);
-//         ctx.drawImage(video, left, top, width, height, 0, 0, width, height);
-//         requestAnimationFrame(drawFrame); // Continuously capture frames
-//     }
-//     drawFrame();
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.drawImage(video, left, top, width, height, 0, 0, width, height);
+        requestAnimationFrame(drawFrame); // Continuously capture frames
+    }
+    drawFrame();
 
-//     return canvas.captureStream(60);
-// };
+    return canvas.captureStream(60);
+};
 </script>
 
 <template>

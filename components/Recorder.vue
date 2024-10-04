@@ -17,6 +17,8 @@ const videoId = crypto.randomUUID();
 const isVideoPreviewVisible = ref(false);
 
 const startRecording = async () => {
+    recordedChunks.length = 0; // Clear previous recordings
+
     const stream = await navigator.mediaDevices.getDisplayMedia({
         video: {
             frameRate: 60,
@@ -39,7 +41,16 @@ const startRecording = async () => {
 
     const { left, top, width, height } = element.getBoundingClientRect();
     const croppedStream = cropVideo(left, top, width, height);
-    croppedStream.addTrack(stream.getAudioTracks()[0]);
+
+    if (!croppedStream) {
+        throw new Error("Failed to crop video");
+    }
+
+    // Check if audio tracks are available before adding
+    const audioTracks = stream.getAudioTracks();
+    if (audioTracks.length > 0) {
+        croppedStream.addTrack(audioTracks[0]);
+    }
 
     mediaRecorder = new MediaRecorder(croppedStream, { mimeType: "video/webm" });
 
@@ -59,11 +70,9 @@ const startRecording = async () => {
 
         const videoElement = document.getElementById(videoId) as HTMLVideoElement;
 
-        if (!videoElement) {
-            return;
+        if (videoElement) {
+            videoElement.src = fileURL;
         }
-
-        videoElement.src = fileURL;
 
         stream.getTracks().forEach((track) => track.stop());
         isRecording.value = false;
@@ -78,20 +87,51 @@ const stopRecording = () => {
 };
 
 const cropVideo = (left: number, top: number, width: number, height: number) => {
-    const scale = window.devicePixelRatio;
+    // Wait until the video metadata is loaded
+    if (video.videoWidth === 0 || video.videoHeight === 0) {
+        video.addEventListener("loadedmetadata", () => {
+            cropVideo(left, top, width, height);
+        }, { once: true });
+        return;
+    }
+
+    const videoWidth = video.videoWidth;
+    const videoHeight = video.videoHeight;
+
+    const windowWidth = window.innerWidth;
+    const windowHeight = window.innerHeight;
+
+    // Calculate scaling factors between video and window dimensions
+    const widthScale = videoWidth / windowWidth;
+    const heightScale = videoHeight / windowHeight;
+
+    const scale = window.devicePixelRatio || 1;
     canvas.width = width * scale;
     canvas.height = height * scale;
     const ctx = canvas.getContext("2d");
     ctx?.scale(scale, scale);
 
     function drawFrame() {
-        if (!canvas || !ctx || video.paused || video.ended) {
+        if (!canvas || !ctx) {
+            requestAnimationFrame(drawFrame);
             return;
         }
 
         ctx.clearRect(0, 0, canvas.width, canvas.height);
-        ctx.drawImage(video, left * scale, top * scale, width * scale, height * scale, 0, 0, width, height);
-        requestAnimationFrame(drawFrame); // Continuously capture frames
+
+        // Adjust source coordinates using calculated scaling factors
+        ctx.drawImage(
+            video,
+            left * widthScale,
+            top * heightScale,
+            width * widthScale,
+            height * heightScale,
+            0,
+            0,
+            width,
+            height,
+        );
+        requestAnimationFrame(drawFrame);
     }
     drawFrame();
 

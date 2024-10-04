@@ -1,4 +1,6 @@
 <script lang="ts" setup>
+import SolarRecordBoldDuotone from "~icons/solar/record-bold-duotone";
+
 type Props = {
   targetSelector: string;
 };
@@ -9,6 +11,7 @@ let mediaRecorder: MediaRecorder | null = null;
 const recordedChunks: Blob[] = [];
 const videoElement = ref<HTMLVideoElement>();
 const canvas = document.createElement("canvas");
+const isRecording = ref(false);
 
 const startRecording = async () => {
     const video = document.createElement("video");
@@ -45,12 +48,14 @@ const startRecording = async () => {
         }
 
         videoElement.value.src = fileURL;
-        videoElement.value.classList.remove("hidden");
+        // videoElement.value.classList.remove("hidden");
 
         stream.getTracks().forEach((track) => track.stop());
+        isRecording.value = false;
     };
 
     mediaRecorder.start();
+    isRecording.value = true;
 };
 
 const stopRecording = () => {
@@ -78,17 +83,35 @@ const stopRecording = () => {
 </script>
 
 <template>
-  <div>
+  <div class="flex items-center gap-2">
     <video
       ref="videoElement"
       class="hidden w-80"
       controls
     />
-    <UButton @click="startRecording">
-      Start recording
-    </UButton>
-    <UButton @click="stopRecording">
-      Stop recording
-    </UButton>
+    <UTooltip
+      v-if="!isRecording"
+      text="Start recording"
+    >
+      <UButton
+        variant="ghost"
+        color="gray"
+        @click="startRecording"
+      >
+        <SolarRecordBoldDuotone class="size-6" />
+      </UButton>
+    </UTooltip>
+    <UTooltip
+      v-else
+      text="Stop recording"
+    >
+      <UButton
+        variant="ghost"
+        color="red"
+        @click="stopRecording"
+      >
+        <SolarRecordBoldDuotone class="size-6" />
+      </UButton>
+    </UTooltip>
   </div>
 </template>

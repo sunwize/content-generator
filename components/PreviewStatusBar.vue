@@ -35,45 +35,57 @@ const stop = () => {
 </script>
 
 <template>
-  <ul class="bg-slate-900 rounded-lg flex items-center gap-2 px-3 py-2">
+  <ul class="flex items-center gap-2">
     <li>
-      <UButton
+      <UTooltip
         v-if="!isPlaying"
-        variant="ghost"
-        color="primary"
-        :disabled="steps.length === 0"
-        @click="play"
+        text="Play preview"
       >
-        <SolarPlayLinear class="size-6" />
-      </UButton>
-      <UButton
+        <UButton
+          variant="ghost"
+          color="primary"
+          :disabled="steps.length === 0"
+          @click="play"
+        >
+          <SolarPlayLinear class="size-6" />
+        </UButton>
+      </UTooltip>
+      <UTooltip
         v-else
-        variant="ghost"
-        color="red"
-        @click="stop"
+        text="Stop preview"
       >
-        <SolarStopLinear class="size-6" />
-      </UButton>
+        <UButton
+          variant="ghost"
+          color="red"
+          @click="stop"
+        >
+          <SolarStopLinear class="size-6" />
+        </UButton>
+      </UTooltip>
     </li>
     <li>
-      <UButton
-        color="gray"
-        :variant="isPreview ? 'solid' : 'ghost'"
-        :disabled="isPlaying"
-        @click="isPreview = !isPreview"
-      >
-        <SolarEyeLinear class="size-6" />
-      </UButton>
+      <UTooltip :text="isPreview ? 'Hide sandbox' : 'Show sandbox'">
+        <UButton
+          color="gray"
+          :variant="isPreview ? 'solid' : 'ghost'"
+          :disabled="isPlaying"
+          @click="isPreview = !isPreview"
+        >
+          <SolarEyeLinear class="size-6" />
+        </UButton>
+      </UTooltip>
     </li>
     <li>
-      <UButton
-        color="gray"
-        :variant="isPreviewCode ? 'solid' : 'ghost'"
-        :disabled="isPlaying"
-        @click="isPreviewCode = !isPreviewCode"
-      >
-        <SolarProgrammingLinear class="size-6" />
-      </UButton>
+      <UTooltip :text="isPreviewCode ? 'Hide terminal' : 'Show terminal'">
+        <UButton
+          color="gray"
+          :variant="isPreviewCode ? 'solid' : 'ghost'"
+          :disabled="isPlaying"
+          @click="isPreviewCode = !isPreviewCode"
+        >
+          <SolarProgrammingLinear class="size-6" />
+        </UButton>
+      </UTooltip>
     </li>
   </ul>
 </template>

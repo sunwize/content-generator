@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import { formatCode } from "~/assets/utils/formatter";
 import { renderStepIndex, scale, steps, translateY } from "~/stores";
+import type { TutorialStep } from "~/types/TutorialStep";
 
 type Props = {
     preview: boolean;
@@ -12,16 +13,16 @@ const style = computed(() => ({
     transform: `scale(${scale.value}%) translateZ(0) translateY(${translateY.value}px)`,
 }));
 
-const generateSandbox = async () => {
-    const sandbox = document.querySelector("#sandbox");
+const generateCode = async (steps: TutorialStep[], selector: string) => {
+    await nextTick();
 
-    if (!sandbox || renderStepIndex.value <= 0) return;
+    const sandbox = document.querySelector(selector);
 
-    const completedSteps = steps.value.filter((_, index) => index < renderStepIndex.value);
+    if (!sandbox) return;
 
     const div = sandbox.shadowRoot ?? sandbox.attachShadow({ mode: "open" });
     div.innerHTML = "";
-    const htmlSteps = completedSteps.filter((step) => step.language === "html");
+    const htmlSteps = steps.filter((step) => step.language === "html");
 
     for (const step of htmlSteps) {
         div.innerHTML += await formatCode(step.code, step.language);
@@ -29,7 +30,7 @@ const generateSandbox = async () => {
 
     const style = document.createElement("style");
 
-    const cssSteps = completedSteps.filter((step) => step.language === "css");
+    const cssSteps = steps.filter((step) => step.language === "css");
 
     for (const step of cssSteps) {
         style.innerHTML += await formatCode(step.code, step.language);
@@ -38,30 +39,16 @@ const generateSandbox = async () => {
     div.appendChild(style);
 };
 
+const generateSandbox = async () => {
+    if (renderStepIndex.value <= 0) return;
+
+    const completedSteps = steps.value.filter((_, index) => index < renderStepIndex.value);
+
+    await generateCode(completedSteps, "#sandbox");
+};
+
 const generatePreview = async () => {
-    await nextTick(); // Make sure the DOM is updated
-
-    const sandbox = document.querySelector("#preview");
-
-    if (!sandbox || steps.value.length === 0) return;
-
-    const div = sandbox.shadowRoot ?? sandbox.attachShadow({ mode: "open" });
-    div.innerHTML = "";
-    const htmlSteps = steps.value.filter((step) => step.language === "html");
-
-    for (const step of htmlSteps) {
-        div.innerHTML += await formatCode(step.code, step.language);
-    }
-
-    const style = document.createElement("style");
-
-    const cssSteps = steps.value.filter((step) => step.language === "css");
-
-    for (const step of cssSteps) {
-        style.innerHTML += await formatCode(step.code, step.language);
-    }
-
-    div.appendChild(style);
+    await generateCode(steps.value, "#preview");
 };
 
 watch(renderStepIndex, () => {
@@ -70,12 +57,6 @@ watch(renderStepIndex, () => {
 
 watch(() => props.preview, (value) => {
     if (value) {
-        generatePreview();
-    }
-});
-
-onMounted(() => {
-    if (props.preview) {
         generatePreview();
     }
 });

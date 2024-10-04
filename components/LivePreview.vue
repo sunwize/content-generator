@@ -29,7 +29,7 @@ const nextStep = () => {
 
 <template>
   <div
-    id="preview"
+    id="live-preview"
     class="relative flex flex-col w-full bg-slate-900 max-w-md aspect-[9/16] overflow-hidden pt-20 pb-28"
   >
     <div class="grid-background" />

@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import * as sounds from "~/assets/utils/sound";
-import { includedSteps, isPlaying, isPreview, isPreviewCode, stepIndex, steps, renderStepIndex } from "~/stores";
+import { includedSteps, isPlaying, isPreview, isPreviewCode, renderStepIndex, stepIndex, steps } from "~/stores";
 import SolarEyeLinear from "~icons/solar/eye-linear";
 import SolarPlayLinear from "~icons/solar/play-linear";
 import SolarProgrammingLinear from "~icons/solar/programming-linear";

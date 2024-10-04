@@ -39,6 +39,7 @@ const startRecording = async () => {
 
     const { left, top, width, height } = element.getBoundingClientRect();
     const croppedStream = cropVideo(left, top, width, height);
+    croppedStream.addTrack(stream.getAudioTracks()[0]);
 
     mediaRecorder = new MediaRecorder(croppedStream, { mimeType: "video/webm" });
 

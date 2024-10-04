@@ -173,7 +173,7 @@ const cropVideo = (left: number, top: number, width: number, height: number) => 
       <UCard class="h-full flex justify-center items-center">
         <video
           :id="videoId"
-          class="w-full max-w-[1000px] object-contain mx-auto"
+          class="max-h-[80dvh] aspect-[9/16] object-cover mx-auto"
           controls
         />
       </UCard>

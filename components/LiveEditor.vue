@@ -4,7 +4,9 @@ import css from "highlight.js/lib/languages/css";
 import javascript from "highlight.js/lib/languages/javascript";
 import xml from "highlight.js/lib/languages/xml";
 
+import { sleep } from "~/assets/utils/sleep";
 import { keyboard, pop, whoosh } from "~/assets/utils/sound";
+import { Typewriter } from "~/assets/utils/typewriter";
 import { includedSteps, isPlaying, stepIndex, typingSpeed } from "~/stores";
 
 hljs.registerLanguage("javascript", javascript);
@@ -29,6 +31,7 @@ const emit = defineEmits<Emits>();
 const codeBlockEl = ref<HTMLElement>();
 
 let timeout: ReturnType<typeof setTimeout> | null = null;
+let typewriter: Typewriter | null = null;
 
 const highlightCode = () => {
     if (!codeBlockEl.value) return;
@@ -58,6 +61,8 @@ const typeNextChar = () => {
             keyboard.pause();
 
             if (stepIndex.value === includedSteps.value.indexOf(true)) {
+                console.log(stepIndex.value);
+
                 pop.currentTime = 0;
                 pop.play();
             }
@@ -79,6 +84,37 @@ const typeNextChar = () => {
     }, 500 / typingSpeed.value); // Wait for the initial animation to finish
 };
 
+const type = async () => {
+    if (!codeBlockEl.value) return;
+
+    await keyboard.play();
+    await sleep(250);
+
+    typewriter = new Typewriter(codeBlockEl.value, {
+        typingSpeed: Math.round(100 / typingSpeed.value),
+        onCharacterTyped: () => {
+            highlightCode();
+            codeBlockEl.value?.scrollTo({
+                top: codeBlockEl.value.scrollHeight,
+                behavior: "smooth",
+            });
+        },
+    })
+        .typeString(props.code);
+
+    typewriter.start()
+        .then(() => {
+            keyboard.pause();
+
+            if (stepIndex.value === includedSteps.value.indexOf(true) && isPlaying.value) {
+                pop.currentTime = 0;
+                pop.play();
+            }
+
+            emit("step-done");
+        });
+};
+
 onMounted(() => {
     if (props.animate) {
         whoosh.currentTime = 0;
@@ -90,10 +126,11 @@ onMounted(() => {
         highlightCode();
     }
 
-    timeout = setTimeout(typeNextChar, 50);
+    timeout = setTimeout(type, 50);
 });
 
 onBeforeUnmount(() => {
+    typewriter?.cancel();
     if (timeout) {
         clearTimeout(timeout);
     }
@@ -148,8 +185,11 @@ onBeforeUnmount(() => {
   position: relative;
   animation: blink 500ms linear infinite alternate;
   display: inline-block;
-  transform: scaleY(1.3);
-  left: -2px;
+  left: -4px;
+  top: -1px;
+  font-family: monospace;
+  line-height: 1rem;
+  font-size: 1.1rem;
 }
 
 #code::-webkit-scrollbar {

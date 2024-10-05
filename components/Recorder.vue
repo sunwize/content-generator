@@ -15,7 +15,7 @@ let mediaRecorder: MediaRecorder | null = null;
 const recordedChunks: Blob[] = [];
 const video = document.createElement("video");
 const canvas = document.createElement("canvas");
-const videoId = crypto.randomUUID();
+const videoId = Math.random().toString(36).substring(7);
 const isVideoPreviewVisible = ref(false);
 
 const startRecording = async () => {

@@ -40,55 +40,12 @@ const highlightCode = () => {
     hljs.highlightElement(codeBlockEl.value);
 };
 
-const typeNextChar = () => {
-    if (!codeBlockEl.value || props.preview) return;
-
-    let typedText = "";
-    let index = 0;
-
-    const _typeNextChar = () => {
-        if (!codeBlockEl.value) return;
-
-        if (index < props.code.length) {
-            typedText += props.code[index];
-            codeBlockEl.value.textContent = typedText;
-            index++;
-
-            highlightCode();
-
-            timeout = setTimeout(_typeNextChar, 30 / typingSpeed.value);
-        } else {
-            keyboard.pause();
-
-            if (stepIndex.value === includedSteps.value.indexOf(true)) {
-                console.log(stepIndex.value);
-
-                pop.currentTime = 0;
-                pop.play();
-            }
-
-            emit("step-done");
-        }
-
-        codeBlockEl.value.scrollTo({
-            top: codeBlockEl.value.scrollHeight,
-            behavior: "smooth",
-        });
-    };
-
-    timeout = setTimeout(() => {
-        if (!isPlaying.value) return;
-
-        _typeNextChar();
-        keyboard.play();
-    }, 500 / typingSpeed.value); // Wait for the initial animation to finish
-};
-
 const type = async () => {
     if (!codeBlockEl.value) return;
 
+    await sleep(150);
     await keyboard.play();
-    await sleep(250);
+    await sleep(150);
 
     typewriter = new Typewriter(codeBlockEl.value, {
         typingSpeed: Math.round(100 / typingSpeed.value),
@@ -126,7 +83,7 @@ onMounted(() => {
         highlightCode();
     }
 
-    timeout = setTimeout(type, 50);
+    type();
 });
 
 onBeforeUnmount(() => {

@@ -41,7 +41,7 @@ const highlightCode = () => {
 };
 
 const type = async () => {
-    if (!codeBlockEl.value) return;
+    if (!codeBlockEl.value || props.preview) return;
 
     await sleep(150);
     await keyboard.play();

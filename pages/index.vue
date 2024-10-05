@@ -17,12 +17,11 @@ onMounted(() => {
         <Settings />
       </div>
       <ClientOnly>
-        <div class="col-span-4 flex flex-col gap-3 px-3 py-6">
-          <div class="flex items-center justify-between bg-slate-900 rounded-lg px-3 py-2">
+        <div class="col-span-4 flex gap-3 px-3 py-6">
+          <div class="flex flex-col gap-12 bg-slate-900 rounded-lg px-3 py-2">
             <PreviewStatusBar />
             <Recorder target-selector="#live-preview" />
           </div>
-
           <div class="flex-1 flex items-start justify-center bg-white/20 rounded-lg p-3">
             <LivePreview />
           </div>

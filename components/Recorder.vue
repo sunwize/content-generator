@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import { isRecording } from "~/stores";
 import PhX from "~icons/ph/x";
 import SolarRecordBoldDuotone from "~icons/solar/record-bold-duotone";
 
@@ -12,7 +13,6 @@ let mediaRecorder: MediaRecorder | null = null;
 const recordedChunks: Blob[] = [];
 const video = document.createElement("video");
 const canvas = document.createElement("canvas");
-const isRecording = ref(false);
 const videoId = crypto.randomUUID();
 const isVideoPreviewVisible = ref(false);
 

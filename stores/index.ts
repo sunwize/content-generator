@@ -36,6 +36,7 @@ export const includedSteps = ref<boolean[]>([]);
 export const isPlaying = ref(false);
 export const isPreview = ref(false);
 export const isPreviewCode = ref(false);
+export const isRecording = ref(false);
 
 const extractSelectorDefinitions = (cssBlock: string) => {
     // Remove comments and trim the input

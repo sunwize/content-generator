@@ -35,7 +35,7 @@ const stop = () => {
 </script>
 
 <template>
-  <ul class="flex items-center gap-2">
+  <ul class="flex flex-col gap-2">
     <li>
       <UTooltip
         v-if="!isPlaying"

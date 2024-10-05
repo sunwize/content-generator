@@ -9,6 +9,8 @@ type Props = {
 
 const props = defineProps<Props>();
 
+const VIDEO_FORMAT = "video/webm";
+
 let mediaRecorder: MediaRecorder | null = null;
 const recordedChunks: Blob[] = [];
 const video = document.createElement("video");
@@ -52,7 +54,7 @@ const startRecording = async () => {
         croppedStream.addTrack(audioTracks[0]);
     }
 
-    mediaRecorder = new MediaRecorder(croppedStream, { mimeType: "video/webm" });
+    mediaRecorder = new MediaRecorder(croppedStream, { mimeType: VIDEO_FORMAT });
 
     mediaRecorder.ondataavailable = (event) => {
         if (event.data.size > 0) {
@@ -62,7 +64,7 @@ const startRecording = async () => {
 
     mediaRecorder.onstop = async () => {
         video.pause();
-        const recordedBlob = new Blob(recordedChunks, { type: "video/webm" });
+        const recordedBlob = new Blob(recordedChunks, { type: VIDEO_FORMAT });
         const fileURL = URL.createObjectURL(recordedBlob);
 
         isVideoPreviewVisible.value = true;
@@ -137,6 +139,20 @@ const cropVideo = (left: number, top: number, width: number, height: number) => 
 
     return canvas.captureStream(60);
 };
+
+const downloadVideo = () => {
+    const videoElement = document.getElementById(videoId) as HTMLVideoElement;
+
+    if (!videoElement) {
+        return;
+    }
+
+    const a = document.createElement("a");
+    const filename = new Date().toISOString().replace(/:/g, "-");
+    a.href = videoElement.src;
+    a.download = `${filename}.webm`;
+    a.click();
+};
 </script>
 
 <template>
@@ -176,6 +192,11 @@ const cropVideo = (left: number, top: number, width: number, height: number) => 
           class="max-h-[80dvh] aspect-[9/16] object-cover mx-auto"
           controls
         />
+        <div class="flex justify-end mt-3">
+          <UButton @click="downloadVideo">
+            Download
+          </UButton>
+        </div>
       </UCard>
       <UButton
         variant="ghost"

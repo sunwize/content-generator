@@ -1,3 +1,5 @@
+import * as csstree from "css-tree";
+
 import { formatCode } from "~/assets/utils/formatter";
 import type { TutorialStep } from "~/types/TutorialStep";
 
@@ -39,21 +41,20 @@ export const isPreview = ref(false);
 export const isPreviewCode = ref(false);
 export const isRecording = ref(false);
 
-const extractSelectorDefinitions = (cssBlock: string) => {
-    // Remove comments and trim the input
-    const cleanCss = cssBlock.replace(/\/\*[\s\S]*?\*\//g, "").trim();
+const extractSelectorDefinitions = (cssFileContent: string) => {
+    const ast = csstree.parse(cssFileContent);
+    const selectors: string[] = [];
 
-    // Match all CSS rules, including @rules like @keyframes and standard selectors
-    const selectorRegex = /([^{]+\{(?:[^{}]*|\{[^}]*\})*\})/g;
-    let match;
-    const selectorDefinitions = [];
+    if (ast.type !== "StyleSheet") return [];
 
-    while ((match = selectorRegex.exec(cleanCss)) !== null) {
-        // Add the entire block (selector or @rule)
-        selectorDefinitions.push(match[1].trim());
-    }
+    ast.children.forEach((node) => {
+        if (node.type === "Rule" || node.type === "Atrule") {
+            const selectorString = csstree.generate(node);
+            selectors.push(selectorString);
+        }
+    });
 
-    return selectorDefinitions;
+    return selectors;
 };
 
 export const generateSteps = async () => {
@@ -64,6 +65,18 @@ export const generateSteps = async () => {
         language: "html",
     });
     const selectors = extractSelectorDefinitions(css.value);
+
+    // Put @keyframes at the beginning
+    selectors.sort((a, b) => {
+        if (a.startsWith("@keyframes")) {
+            return -1;
+        } else if (b.startsWith("@keyframes")) {
+            return 1;
+        } else {
+            return 0;
+        }
+    });
+
     for (const selector of selectors) {
         steps.value.push({
             filename: "styles.css",

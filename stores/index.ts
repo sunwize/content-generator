@@ -1,35 +1,16 @@
 import * as csstree from "css-tree";
 
 import { formatCode } from "~/assets/utils/formatter";
+import { useStorage } from "~/composables/useStorage";
 import type { TutorialStep } from "~/types/TutorialStep";
 
-export const html = ref(`
-  <button>Button</button>
-`);
-export const css = ref(`
-button {
-  font-size: 1.5rem;
-  color: #fafafa;
-  text-transform: uppercase;
-  padding: 10px 20px;
-  border-radius: 10px;
-  border: 2px solid #fafafa;
-  background: #252525;
-  box-shadow: 3px 3px #fafafa;
-  cursor: pointer;
-  margin: 35px 0;
-}
+export const html = useStorage("html", "");
+export const css = useStorage("css", "");
 
-button:active {
-  box-shadow: none;
-  transform: translate(3px, 3px);
-}
-`);
-
-export const title = ref("CSS Tutorial");
-export const scale = ref(100);
-export const translateY = ref(0);
-export const typingSpeed = ref(3);
+export const title = useStorage("title", "");
+export const scale = useStorage("scale", 100);
+export const translateY = useStorage("translateY", 0);
+export const typingSpeed = useStorage("typingSpeed", 3);
 
 export const renderStepIndex = ref(0);
 export const stepIndex = ref(0);

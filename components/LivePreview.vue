@@ -10,8 +10,8 @@ const currentStep = computed(() => steps.value[stepIndex.value]);
 const animate = computed(() => stepIndex.value === includedSteps.value.findIndex((value) => value));
 
 const nextStep = () => {
-    renderStepIndex.value++;
     const nextIndex = includedSteps.value.findIndex((value, index) => value && stepIndex.value < index);
+    renderStepIndex.value = nextIndex;
 
     if (nextIndex === -1) {
         renderStepIndex.value = steps.value.length;

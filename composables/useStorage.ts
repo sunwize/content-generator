@@ -30,11 +30,15 @@ export const useStorage = <T>(key: string, defaultValue: T) => {
     storage[key] = defaultValue;
 
     watch(data, () => {
-        storage[key] = data.value;
+        if (data.value !== storage[key]) {
+            storage[key] = data.value;
+        }
     }, { deep: true });
 
     watch(storage, () => {
-        data.value = storage[key] as T;
+        if (storage[key] !== data.value) {
+            data.value = storage[key] as T;
+        }
     }, { deep: true });
 
     return data;

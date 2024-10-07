@@ -44,7 +44,7 @@ export const useStorage = <T>(key: string, defaultValue: T) => {
     return data;
 };
 
-export const useStorageLoader = () => {
+export const useStorageLoader = (callback?: () => void) => {
     onMounted(() => {
         loadStorage();
         window.addEventListener("beforeunload", saveStorage);
@@ -52,5 +52,9 @@ export const useStorageLoader = () => {
         watch(storage, () => {
             saveStorage();
         }, { deep: true });
+
+        nextTick(() => {
+            callback?.();
+        });
     });
 };

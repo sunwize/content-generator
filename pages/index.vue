@@ -3,11 +3,6 @@ import LivePreview from "~/components/LivePreview.vue";
 import PreviewStatusBar from "~/components/PreviewStatusBar.vue";
 import Recorder from "~/components/Recorder.vue";
 import Settings from "~/components/settings/index.vue";
-import { generateSteps } from "~/stores";
-
-onMounted(() => {
-    generateSteps();
-});
 </script>
 
 <template>

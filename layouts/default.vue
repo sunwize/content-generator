@@ -1,7 +1,10 @@
 <script lang="ts" setup>
 import { useStorageLoader } from "~/composables/useStorage";
+import { generateSteps } from "~/stores";
 
-useStorageLoader();
+useStorageLoader(() => {
+    generateSteps();
+});
 </script>
 
 <template>

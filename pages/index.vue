@@ -7,12 +7,12 @@ import Settings from "~/components/settings/index.vue";
 
 <template>
   <div class="flex-1 flex flex-col">
-    <div class="flex-1 grid grid-cols-12">
+    <div class="flex-1 grid grid-cols-12 items-start">
       <div class="col-span-7 flex flex-col px-3 py-6">
         <Settings />
       </div>
       <ClientOnly>
-        <div class="col-span-5 flex gap-3 px-3 py-6">
+        <div class="sticky top-0 col-span-5 flex gap-3 px-3 py-6">
           <div class="flex flex-col gap-12 bg-slate-900 rounded-lg px-3 py-2">
             <PreviewStatusBar />
             <Recorder target-selector="#live-preview" />

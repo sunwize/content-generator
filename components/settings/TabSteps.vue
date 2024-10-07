@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import CodeEditor from "~/components/CodeEditor.vue";
-import { includedSteps, steps } from "~/stores";
+import { includedSteps, isPlaying, stepIndex, steps } from "~/stores";
 </script>
 
 <template>
@@ -19,7 +19,10 @@ import { includedSteps, steps } from "~/stores";
           <CodeEditor
             v-model="step.code"
             :language="step.language"
-            :lines="5"
+            :lines="10"
+            :class="{
+              'border-primary-500': stepIndex === index && isPlaying,
+            }"
           />
         </div>
       </li>

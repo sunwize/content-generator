@@ -41,6 +41,8 @@ const startRecording = async () => {
         throw new Error("Target element not found");
     }
 
+    isRecording.value = true;
+
     const { left, top, width, height } = element.getBoundingClientRect();
     const croppedStream = cropVideo(left, top, width, height);
 
@@ -81,7 +83,6 @@ const startRecording = async () => {
     };
 
     mediaRecorder.start();
-    isRecording.value = true;
 };
 
 const stopRecording = () => {
@@ -114,6 +115,10 @@ const cropVideo = (left: number, top: number, width: number, height: number) => 
     ctx?.scale(scale, scale);
 
     function drawFrame() {
+        if (!isRecording.value) {
+            return;
+        }
+
         if (!canvas || !ctx) {
             requestAnimationFrame(drawFrame);
             return;

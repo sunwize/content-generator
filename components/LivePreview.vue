@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import { done } from "~/assets/utils/sound";
+import BackgroundVideo from "~/components/BackgroundVideo.vue";
 import LiveEditor from "~/components/LiveEditor.vue";
 import Sandbox from "~/components/Sandbox.vue";
 import { html, includedSteps, isPlaying, isPreview, isPreviewCode, renderStepIndex, stepIndex, steps, title } from "~/stores";
@@ -32,7 +33,8 @@ const nextStep = () => {
     id="live-preview"
     class="relative flex flex-col w-full bg-slate-900 max-w-md aspect-[9/16] overflow-hidden pt-20 pb-28"
   >
-    <div class="grid-background" />
+    <!-- <div class="grid-background" /> -->
+    <BackgroundVideo />
     <div class="shade-background" />
     <div class="relative flex-1 flex flex-col">
       <p
@@ -68,7 +70,10 @@ const nextStep = () => {
         />
       </div>
       <div class="relative flex-1 flex items-center justify-center">
-        <div class="absolute inset-12 flex items-center justify-center">
+        <div
+          v-show="isPlaying || isPreview"
+          class="animate-open absolute inset-12 flex items-center justify-center border border-white/20 rounded-2xl bg-white/5 shadow-xl backdrop-blur-sm overflow-hidden"
+        >
           <Sandbox :preview="isPreview" />
         </div>
       </div>
@@ -107,5 +112,18 @@ const nextStep = () => {
   height: 100%;
   background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0) 80%);
   pointer-events: none;
+}
+
+@keyframes open {
+  from {
+    transform: scaleY(0);
+  }
+  to {
+    transform: scaleY(1);
+  }
+}
+
+.animate-open {
+  animation: open 300ms ease-in-out;
 }
 </style>

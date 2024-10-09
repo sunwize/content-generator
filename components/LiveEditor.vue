@@ -96,7 +96,7 @@ onBeforeUnmount(() => {
 
 <template>
   <div
-    class="relative ring-1 ring-white/20 rounded-2xl bg-slate-800 shadow-xl pt-3 pb-1"
+    class="relative border border-white/20 rounded-2xl bg-slate-800/50 shadow-xl backdrop-blur-xl pt-3 pb-1"
     :class="[animate && 'fly']"
   >
     <div class="flex items-center mb-3">
@@ -110,7 +110,7 @@ onBeforeUnmount(() => {
       </div>
       <div class="w-[80px]" />
     </div>
-    <div class="bg-slate-900 rounded-2xl mx-1 px-4 py-3">
+    <div class="bg-slate-900/50 rounded-xl mx-1 px-4 py-3">
       <div
         id="code"
         ref="codeBlockEl"
@@ -188,5 +188,18 @@ onBeforeUnmount(() => {
 
 .fly {
     animation: fly 300ms ease-in-out;
+}
+
+@keyframes open {
+  from {
+    transform: scaleY(0);
+  }
+  to {
+    transform: scaleY(1);
+  }
+}
+
+.animate-open {
+  animation: open 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 </style>

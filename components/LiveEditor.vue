@@ -4,8 +4,8 @@ import css from "highlight.js/lib/languages/css";
 import javascript from "highlight.js/lib/languages/javascript";
 import xml from "highlight.js/lib/languages/xml";
 
+import { keyboard, pop, whoosh } from "~/assets/sounds";
 import { sleep } from "~/assets/utils/sleep";
-import { keyboard, pop, whoosh } from "~/assets/utils/sound";
 import { Typewriter } from "~/assets/utils/typewriter";
 import { includedSteps, isPlaying, stepIndex, typingSpeed } from "~/stores";
 

@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import * as sounds from "~/assets/utils/sound";
+import * as sounds from "~/assets/sounds";
 import { includedSteps, isPlaying, isPreview, isPreviewCode, isPreviewTitle, renderStepIndex, stepIndex, steps } from "~/stores";
 import SolarEyeLinear from "~icons/solar/eye-linear";
 import SolarPlayLinear from "~icons/solar/play-linear";
@@ -21,10 +21,12 @@ const stop = () => {
     renderStepIndex.value = 0;
     stepIndex.value = 0;
 
-    Object.values(sounds).forEach((sound) => {
-        sound.pause();
-        sound.currentTime = 0;
-    });
+    Object.values(sounds)
+        .filter((sound) => sound instanceof HTMLAudioElement)
+        .forEach((sound) => {
+            sound.pause();
+            sound.currentTime = 0;
+        });
 
     const sandbox = document.querySelector("#sandbox");
 

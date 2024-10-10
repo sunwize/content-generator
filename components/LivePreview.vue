@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { done } from "~/assets/utils/sound";
+import { done } from "~/assets/sounds";
 import BackgroundVideo from "~/components/BackgroundVideo.vue";
 import LiveEditor from "~/components/LiveEditor.vue";
 import Sandbox from "~/components/Sandbox.vue";

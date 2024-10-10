@@ -1,4 +1,6 @@
 <script lang="ts" setup>
+import video from "~/assets/videos/shop.mp4";
+
 const videoElement = ref<HTMLVideoElement>();
 
 onMounted(() => {
@@ -10,7 +12,7 @@ onMounted(() => {
 <template>
   <video
     ref="videoElement"
-    src="/videos/background.mp4"
+    :src="video"
     type="video/mp4"
     loop
     muted

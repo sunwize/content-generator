@@ -3,7 +3,7 @@ import { done } from "~/assets/utils/sound";
 import BackgroundVideo from "~/components/BackgroundVideo.vue";
 import LiveEditor from "~/components/LiveEditor.vue";
 import Sandbox from "~/components/Sandbox.vue";
-import { html, includedSteps, isPlaying, isPreview, isPreviewCode, renderStepIndex, stepIndex, steps, title } from "~/stores";
+import { html, includedSteps, isPlaying, isPreview, isPreviewCode, isPreviewTitle, renderStepIndex, stepIndex, steps, title } from "~/stores";
 
 const currentStep = computed(() => steps.value[stepIndex.value]);
 
@@ -38,8 +38,8 @@ const nextStep = () => {
     <div class="shade-background" />
     <div class="relative flex-1 flex flex-col">
       <p
-        v-if="isPreview"
-        class="font-bold text-5xl text-center leading-snug my-6 px-12"
+        v-if="isPreviewTitle"
+        class="font-bold text-5xl text-center text-shadow leading-snug my-6 px-12"
       >
         {{ title }}
       </p>

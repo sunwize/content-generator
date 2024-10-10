@@ -91,7 +91,9 @@ export class Typewriter {
                 this.onCharacterTyped(char);
             }
 
-            await this._sleep(this.typingSpeed);
+            const randomSpeed = this.typingSpeed * (Math.random() * 0.8 + 0.6);
+
+            await this._sleep(randomSpeed);
         }
     }
 

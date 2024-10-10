@@ -118,7 +118,7 @@ onBeforeUnmount(() => {
         :class="[`language-${language}`, animate && 'h-expand']"
       />
     </div>
-    <p class="font-mono text-xs text-gray-400 absolute right-2 -bottom-5">
+    <p class="font-mono text-xs text-gray-200/80 text-shadow absolute right-2 -bottom-5">
       @ZeroToCommit
     </p>
   </div>

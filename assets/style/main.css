@@ -38,3 +38,7 @@ body {
 .scrollbar-hidden::-webkit-scrollbar {
     display: none;
 }
+
+.text-shadow {
+    text-shadow: 1px 1px 6px rgba(0, 0, 0, 0.5);
+}

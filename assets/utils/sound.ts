@@ -1,5 +1,6 @@
 const createSong = (name: string, loop = true) => {
-    const audio = new Audio(`/sounds/${name}.mp3`);
+    const audio = document.createElement("audio");
+    audio.src = `/sounds/${name}.mp3`;
     audio.loop = loop;
     audio.volume = 1;
     audio.preload = "auto";

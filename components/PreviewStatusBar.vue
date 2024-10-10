@@ -1,10 +1,11 @@
 <script lang="ts" setup>
 import * as sounds from "~/assets/utils/sound";
-import { includedSteps, isPlaying, isPreview, isPreviewCode, renderStepIndex, stepIndex, steps } from "~/stores";
+import { includedSteps, isPlaying, isPreview, isPreviewCode, isPreviewTitle, renderStepIndex, stepIndex, steps } from "~/stores";
 import SolarEyeLinear from "~icons/solar/eye-linear";
 import SolarPlayLinear from "~icons/solar/play-linear";
 import SolarProgrammingLinear from "~icons/solar/programming-linear";
 import SolarStopLinear from "~icons/solar/stop-linear";
+import SolarTextLinear from "~icons/solar/text-linear";
 
 const play = () => {
     renderStepIndex.value = includedSteps.value.indexOf(true);
@@ -13,6 +14,7 @@ const play = () => {
     isPlaying.value = true;
     isPreview.value = false;
     isPreviewCode.value = false;
+    isPreviewTitle.value = false;
 };
 
 const stop = () => {
@@ -60,6 +62,18 @@ const stop = () => {
           @click="stop"
         >
           <SolarStopLinear class="size-6" />
+        </UButton>
+      </UTooltip>
+    </li>
+    <li>
+      <UTooltip text="Show title">
+        <UButton
+          color="gray"
+          :variant="isPreviewTitle ? 'solid' : 'ghost'"
+          :disabled="isPlaying"
+          @click="isPreviewTitle = !isPreviewTitle"
+        >
+          <SolarTextLinear class="size-6" />
         </UButton>
       </UTooltip>
     </li>

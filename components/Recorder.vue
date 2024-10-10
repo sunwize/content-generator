@@ -1,5 +1,7 @@
 <script lang="ts" setup>
-import { isRecording } from "~/stores";
+import { storeToRefs } from "pinia";
+
+import { useStore } from "~/stores";
 import PhX from "~icons/ph/x";
 import SolarRecordBoldDuotone from "~icons/solar/record-bold-duotone";
 
@@ -8,6 +10,8 @@ type Props = {
 };
 
 const props = defineProps<Props>();
+
+const { isRecording } = storeToRefs(useStore());
 
 const VIDEO_FORMAT = "video/webm";
 

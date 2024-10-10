@@ -1,5 +1,9 @@
 <script lang="ts" setup>
-import { scale, title, translateY, typingSpeed } from "~/stores";
+import { storeToRefs } from "pinia";
+
+import { useStore } from "~/stores";
+
+const { scale, title, translateY, typingSpeed } = storeToRefs(useStore());
 </script>
 
 <template>

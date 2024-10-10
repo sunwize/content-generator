@@ -1,9 +1,24 @@
 <script lang="ts" setup>
+import { storeToRefs } from "pinia";
+
 import { done } from "~/assets/sounds";
 import BackgroundVideo from "~/components/BackgroundVideo.vue";
 import LiveEditor from "~/components/LiveEditor.vue";
 import Sandbox from "~/components/Sandbox.vue";
-import { html, includedSteps, isPlaying, isPreview, isPreviewCode, isPreviewTitle, renderStepIndex, stepIndex, steps, title } from "~/stores";
+import { useStore } from "~/stores";
+
+const {
+    html,
+    includedSteps,
+    isPlaying,
+    isPreview,
+    isPreviewCode,
+    isPreviewTitle,
+    renderStepIndex,
+    stepIndex,
+    steps,
+    title,
+} = storeToRefs(useStore());
 
 const currentStep = computed(() => steps.value[stepIndex.value]);
 

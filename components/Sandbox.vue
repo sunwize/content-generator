@@ -1,6 +1,8 @@
 <script lang="ts" setup>
+import { storeToRefs } from "pinia";
+
 import { formatCode } from "~/assets/utils/formatter";
-import { renderStepIndex, scale, steps, translateY } from "~/stores";
+import { useStore } from "~/stores";
 import type { TutorialStep } from "~/types/TutorialStep";
 
 type Props = {
@@ -8,6 +10,8 @@ type Props = {
 };
 
 const props = defineProps<Props>();
+
+const { renderStepIndex, scale, steps, translateY } = storeToRefs(useStore());
 
 const style = computed(() => ({
     transform: `scale(${scale.value}%) translateZ(0) translateY(${translateY.value}px)`,

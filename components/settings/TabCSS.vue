@@ -1,5 +1,10 @@
 <script lang="ts" setup>
-import { css, generateSteps } from "~/stores";
+import { storeToRefs } from "pinia";
+
+import { useStore } from "~/stores";
+
+const store = useStore();
+const { css } = storeToRefs(useStore());
 </script>
 
 <template>
@@ -7,7 +12,7 @@ import { css, generateSteps } from "~/stores";
     <CodeEditor
       v-model="css"
       language="css"
-      @change="generateSteps"
+      @change="store.generateSteps"
     />
   </div>
 </template>

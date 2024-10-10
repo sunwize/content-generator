@@ -1,6 +1,10 @@
 <script lang="ts" setup>
+import { storeToRefs } from "pinia";
+
 import CodeEditor from "~/components/CodeEditor.vue";
-import { includedSteps, isPlaying, stepIndex, steps } from "~/stores";
+import { useStore } from "~/stores";
+
+const { includedSteps, isPlaying, stepIndex, steps } = storeToRefs(useStore());
 </script>
 
 <template>

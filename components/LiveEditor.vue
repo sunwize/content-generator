@@ -3,11 +3,12 @@ import hljs from "highlight.js/lib/core";
 import css from "highlight.js/lib/languages/css";
 import javascript from "highlight.js/lib/languages/javascript";
 import xml from "highlight.js/lib/languages/xml";
+import { storeToRefs } from "pinia";
 
 import { keyboard, pop, whoosh } from "~/assets/sounds";
 import { sleep } from "~/assets/utils/sleep";
 import { Typewriter } from "~/assets/utils/typewriter";
-import { includedSteps, isPlaying, stepIndex, typingSpeed } from "~/stores";
+import { useStore } from "~/stores";
 
 hljs.registerLanguage("javascript", javascript);
 hljs.registerLanguage("css", css);
@@ -27,6 +28,8 @@ type Emits = {
 
 const props = defineProps<Props>();
 const emit = defineEmits<Emits>();
+
+const { includedSteps, isPlaying, stepIndex, typingSpeed } = storeToRefs(useStore());
 
 const codeBlockEl = ref<HTMLElement>();
 

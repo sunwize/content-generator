@@ -1,11 +1,24 @@
 <script lang="ts" setup>
+import { storeToRefs } from "pinia";
+
 import * as sounds from "~/assets/sounds";
-import { includedSteps, isPlaying, isPreview, isPreviewCode, isPreviewTitle, renderStepIndex, stepIndex, steps } from "~/stores";
+import { useStore } from "~/stores";
 import SolarEyeLinear from "~icons/solar/eye-linear";
 import SolarPlayLinear from "~icons/solar/play-linear";
 import SolarProgrammingLinear from "~icons/solar/programming-linear";
 import SolarStopLinear from "~icons/solar/stop-linear";
 import SolarTextLinear from "~icons/solar/text-linear";
+
+const {
+    includedSteps,
+    isPlaying,
+    isPreview,
+    isPreviewCode,
+    isPreviewTitle,
+    renderStepIndex,
+    stepIndex,
+    steps,
+} = storeToRefs(useStore());
 
 const play = () => {
     renderStepIndex.value = includedSteps.value.indexOf(true);

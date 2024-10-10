@@ -1,9 +1,10 @@
 <script lang="ts" setup>
-import { useStorageLoader } from "~/composables/useStorage";
-import { generateSteps } from "~/stores";
+import { useStore } from "~/stores";
 
-useStorageLoader(() => {
-    generateSteps();
+const store = useStore();
+
+onMounted(() => {
+    store.generateSteps();
 });
 </script>
 

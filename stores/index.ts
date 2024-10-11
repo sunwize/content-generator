@@ -1,6 +1,5 @@
 import * as csstree from "css-tree";
 import { defineStore } from "pinia";
-import piniaPluginPersistedstate from "pinia-plugin-persistedstate";
 
 import { formatCode } from "~/assets/utils/formatter";
 import type { TutorialStep } from "~/types/TutorialStep";
@@ -10,6 +9,7 @@ export const useStore = defineStore("store", () => {
     const css = ref("");
 
     const title = ref("");
+    const video = ref("shop");
     const scale = ref(100);
     const translateY = ref(0);
     const typingSpeed = ref(3);
@@ -77,6 +77,7 @@ export const useStore = defineStore("store", () => {
         css,
 
         title,
+        video,
         scale,
         translateY,
         typingSpeed,

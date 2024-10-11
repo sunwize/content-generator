@@ -1,18 +1,25 @@
 <script lang="ts" setup>
-import video from "~/assets/videos/shop.mp4";
+import { storeToRefs } from "pinia";
+
+import { useStore } from "~/stores";
+
+const { video } = storeToRefs(useStore());
 
 const videoElement = ref<HTMLVideoElement>();
 
 onMounted(() => {
-    videoElement.value?.load();
-    videoElement.value?.play();
+    watch(video, async (value) => {
+        if (value && videoElement.value) {
+            videoElement.value.src = (await import(`~/assets/videos/${value}.mp4`)).default;
+            videoElement.value?.play();
+        }
+    }, { immediate: true });
 });
 </script>
 
 <template>
   <video
     ref="videoElement"
-    :src="video"
     type="video/mp4"
     loop
     muted

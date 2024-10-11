@@ -83,7 +83,7 @@ export class Typewriter {
 
     private async _typeString(text: string): Promise<void> {
         for (const char of text) {
-            if (this.isCancelled) break;
+            if (this.isCancelled || !this.element) break;
             this.element.innerHTML += char;
 
             // Invoke the onCharacterTyped callback if provided

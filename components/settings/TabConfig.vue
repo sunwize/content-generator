@@ -12,7 +12,16 @@ const { scale, title, translateY, typingSpeed } = storeToRefs(useStore());
       label="Title"
       class="w-80 mb-6"
     >
-      <UInput v-model="title" />
+      <UInput
+        v-model="title"
+        placeholder="Enter a title..."
+      />
+    </UFormGroup>
+    <UFormGroup
+      label="Video"
+      class="w-80 mb-6"
+    >
+      <VideoSelect />
     </UFormGroup>
     <UFormGroup
       label="Scale"

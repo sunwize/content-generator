@@ -21,3 +21,4 @@ export const done = createSong(doneSounds, false);
 
 pop.volume = 0.25;
 done.volume = 0.25;
+keyboard.volume = 0.75;
